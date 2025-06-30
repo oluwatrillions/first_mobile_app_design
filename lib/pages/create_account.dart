@@ -3,6 +3,7 @@ import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,6 +15,13 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  void _launchURL() async {
+    final Uri url = Uri.parse('https://www.tiktok.com');
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +126,7 @@ class _LoginState extends State<Login> {
               children: [
                 Socials(
                   onPressed: () =>
-                      Navigator.pushNamed(context, 'www.apple.com'),
+                      Navigator.pushNamed(context, 'https://www.apple.com'),
                   icon: Icon(
                     Icons.apple,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -127,7 +135,7 @@ class _LoginState extends State<Login> {
                 ),
                 Socials(
                   onPressed: () =>
-                      Navigator.pushNamed(context, 'www.facebook.com'),
+                      Navigator.pushNamed(context, 'https://www.apple.com'),
                   icon: Icon(
                     Icons.facebook,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -136,7 +144,7 @@ class _LoginState extends State<Login> {
                 ),
                 Socials(
                   onPressed: () =>
-                      Navigator.pushNamed(context, 'www.youtube.com'),
+                      Navigator.pushNamed(context, 'https://www.snapchat.com'),
                   icon: Icon(
                     Icons.snapchat,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -144,8 +152,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Socials(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, 'www.tiktok.com'),
+                  onPressed: _launchURL,
                   icon: Icon(
                     Icons.tiktok,
                     color: const Color.fromARGB(255, 0, 0, 0),
