@@ -4,6 +4,9 @@ environment:
   sdk: "^3.8.0"
   flutter: ">=3.8.0"
 
+flutter:
+  uses-material-design: true
+
 dependencies:
   flutter:
     sdk: flutter

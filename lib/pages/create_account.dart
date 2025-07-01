@@ -16,8 +16,13 @@ class _LoginState extends State<Login> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void _launchURL() async {
-    final Uri url = Uri.parse('https://www.tiktok.com');
+  final String apple = 'https://www.apple.com';
+  final String facebook = 'https://www.facebook.com';
+  final String snapchat = 'https://www.snapchat.com';
+  final String tiktok = 'https://www.tiktok.com';
+
+  void _launchURL(String link) async {
+    final Uri url = Uri.parse(link);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
     }
@@ -125,8 +130,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Socials(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, 'https://www.apple.com'),
+                  onPressed: () => _launchURL(apple),
                   icon: Icon(
                     Icons.apple,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -134,8 +138,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Socials(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, 'https://www.apple.com'),
+                  onPressed: () => _launchURL(facebook),
                   icon: Icon(
                     Icons.facebook,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -143,8 +146,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Socials(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, 'https://www.snapchat.com'),
+                  onPressed: () => _launchURL(snapchat),
                   icon: Icon(
                     Icons.snapchat,
                     color: const Color.fromARGB(255, 0, 0, 0),
@@ -152,7 +154,7 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 Socials(
-                  onPressed: _launchURL,
+                  onPressed: () => _launchURL(tiktok),
                   icon: Icon(
                     Icons.tiktok,
                     color: const Color.fromARGB(255, 0, 0, 0),
