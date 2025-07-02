@@ -1,10 +1,8 @@
-import 'package:first_app/dartDbConnect/mongo_db.dart';
+// import 'package:first_app/dartDbConnect/mongo_db.dart';
 import 'package:first_app/pages/create_account.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await MongoDatabase.connect();
   runApp(const MyApp());
 }
 
