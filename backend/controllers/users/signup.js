@@ -1,4 +1,5 @@
 const Users = require("../../model/users/signup");
+const validateEmail = require("email-validator");
 
 const handleSignup = async (req, res) => {
   let { name, email, password } = req.body;

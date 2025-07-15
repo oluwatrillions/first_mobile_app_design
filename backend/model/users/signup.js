@@ -19,29 +19,10 @@ const Users = new userSchema({
     maxlength: 255,
     required: true,
   },
-  //   scope: {
-  //     type: String,
-  //     enum: ["local", "google"],
-  //   },
-  //   roles: {
-  //     type: String,
-  //     enum: ["user", "admin"],
-  //     default: "user",
-  //   },
-  //   profileImage: {
-  //     type: String,
-  //   },
   registeredAt: {
     type: Date,
     default: Date.now(),
   },
-  //   verificationToken: String,
-  //   verificationTokenExpiry: Date,
-  //   refreshToken: String,
-  //   isVerified: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
 });
 
-module.exports = mongoose.model("Users", Users);
+module.exports = mongoose.model("users", Users);
