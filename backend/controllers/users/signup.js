@@ -2,8 +2,8 @@ const Users = require("../../model/users/signup");
 const validateEmail = require("email-validator");
 
 const handleSignup = async (req, res) => {
-  let { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  let { username, email, password, name } = req.body;
+  if (!username || !email || !password) {
     return res.json({ message: "Please enter the following fields" });
   }
 
@@ -28,21 +28,6 @@ const handleSignup = async (req, res) => {
     });
 
     if (newUser) {
-      //   const verificationToken = newUser.generateVerificationToken();
-
-      //   await newUser.save({ validateBeforeSave: false });
-
-      //   const frontendURL = "http://localhost:5173";
-      //   const verificationUrl = `${frontendURL}/verify/${verificationToken}`;
-
-      //   const message = `Please verify your email by clicking the link: ${verificationUrl}`;
-
-      //   await sendVerificationEmail({
-      //     email: newUser.email,
-      //     subject: "Email Verification",
-      //     message,
-      //   });
-
       res.status(201).json({
         newUser,
         status: "success",

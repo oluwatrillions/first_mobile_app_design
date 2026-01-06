@@ -2,6 +2,8 @@ import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/text_field.dart';
 import 'package:first_app/pages/create_account.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -14,6 +16,43 @@ class _SignupState extends State<Signup> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+
+  Future<void> signupUser() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:5500/signup'),
+        body: {
+          'username': usernameController.text,
+          'email': emailController.text,
+          'password': passwordController.text,
+        },
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (!mounted) return;
+
+      if (response.statusCode == 201) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(data['message'])));
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Login()),
+        );
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(data['message'])));
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Connection error: $e')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +101,10 @@ class _SignupState extends State<Signup> {
                               color: Color.fromARGB(255, 7, 93, 192),
                             ),
                           ),
-                          onTap:
-                              () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Login(),
-                                ),
-                              ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          ),
                         ),
                       ],
                     ),
@@ -111,14 +147,7 @@ class _SignupState extends State<Signup> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
-                    child: MyButtons(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => Signup()),
-                        );
-                      },
-                      text: "Sign up",
-                    ),
+                    child: MyButtons(onPressed: signupUser, text: "Sign up"),
                   ),
                 ],
               ),

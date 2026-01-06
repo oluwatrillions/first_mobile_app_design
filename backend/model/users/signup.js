@@ -6,6 +6,11 @@ const Users = new userSchema({
     type: String,
     minlength: 4,
     maxlength: 255,
+  },
+  username: {
+    type: String,
+    minlength: 4,
+    maxlength: 255,
     required: true,
   },
   email: {

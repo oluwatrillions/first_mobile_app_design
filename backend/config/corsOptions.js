@@ -1,4 +1,4 @@
-const whitelist = ["http://10.0.2.2:4000", "http://127.0.0.1:5173"];
+const whitelist = ["http://127.0.0.1:5173"];
 const corsOptions = {
   origin: whitelist,
   credentials: true,
