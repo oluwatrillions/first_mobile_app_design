@@ -1,6 +1,7 @@
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
+import 'package:first_app/pages/home.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -116,7 +117,7 @@ class _LoginState extends State<Login> {
                     onPressed: () {
                       Navigator.of(
                         context,
-                      ).push(MaterialPageRoute(builder: (context) => Signup()));
+                      ).push(MaterialPageRoute(builder: (context) => Home()));
                     },
                     text: "Login",
                   ),

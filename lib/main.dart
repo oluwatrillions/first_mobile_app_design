@@ -4,16 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
 void main() {
-  // Disable verbose logging
-  debugPrint = (String? message, {int? wrapWidth}) {
-    if (message != null &&
-        !message.contains('PerformTraversalsStart') &&
-        !message.contains('FrameDeadline') &&
-        !message.contains('SwapBuffers')) {
-      developer.log(message);
-    }
-  };
-
   runApp(MyApp());
 }
 
