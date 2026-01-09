@@ -22,15 +22,24 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 30.0),
+
             Card(
               elevation: 5,
+              margin: EdgeInsets.only(left: 50.0, bottom: 30.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
               color: const Color.fromARGB(255, 80, 163, 231),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Welcome to the Home Page!"),
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  "Welcome to the Home Page!",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: const Color.fromARGB(255, 26, 24, 24),
+                  ),
+                ),
               ),
             ),
             GestureDetector(
