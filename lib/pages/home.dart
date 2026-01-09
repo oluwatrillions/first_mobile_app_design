@@ -22,6 +22,17 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
+            Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              color: const Color.fromARGB(255, 80, 163, 231),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Welcome to the Home Page!"),
+              ),
+            ),
             GestureDetector(
               child: Text(
                 'sign in',
