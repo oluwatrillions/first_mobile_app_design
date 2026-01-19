@@ -7,15 +7,21 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Home Page'),
+        backgroundColor: Color.fromARGB(255, 218, 183, 224),
+      ),
       backgroundColor: Color.fromARGB(255, 218, 183, 224),
       body: Padding(
-        padding: EdgeInsets.only(top: 100.0),
+        padding: EdgeInsets.only(top: 30.0, left: 30.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 150.0),
+            SizedBox(
+              width: 350,
               child: Text(
-                'H O M E',
+                'Check out our new users',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24.0,
                   color: Color.fromARGB(255, 48, 38, 38),
@@ -24,37 +30,27 @@ class Home extends StatelessWidget {
             ),
             SizedBox(height: 30.0),
 
-            Card(
-              elevation: 5,
-              margin: EdgeInsets.only(left: 50.0, bottom: 30.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              color: const Color.fromARGB(255, 80, 163, 231),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Text(
-                  "Welcome to the Home Page!",
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: const Color.fromARGB(255, 26, 24, 24),
+            ListView.builder(
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.only(bottom: 30.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              child: Text(
-                'sign in',
-                style: TextStyle(
-                  fontSize: 18,
-                  backgroundColor: Color.fromARGB(255, 214, 213, 214),
-                  color: Color.fromARGB(255, 7, 93, 192),
-                ),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              ),
+                  color: const Color.fromARGB(255, 80, 163, 231),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                      "William Gonzalo Flores",
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: const Color.fromARGB(255, 26, 24, 24),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
