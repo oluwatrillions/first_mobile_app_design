@@ -30,27 +30,30 @@ class Home extends StatelessWidget {
             ),
             SizedBox(height: 30.0),
 
-            ListView.builder(
-              itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.only(bottom: 30.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  color: const Color.fromARGB(255, 80, 163, 231),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Text(
-                      "William Gonzalo Flores",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: const Color.fromARGB(255, 26, 24, 24),
+            Expanded(
+              child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.only(bottom: 20.0, right: 30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: const Color.fromARGB(255, 131, 187, 233),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(
+                        "William Gonzalo Flores",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          color: const Color.fromARGB(255, 0, 0, 0),
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),
