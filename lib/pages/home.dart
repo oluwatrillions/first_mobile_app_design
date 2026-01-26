@@ -54,14 +54,14 @@ class Home extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            getUsers[1][0],
+                            getUsers[index][0],
                             style: TextStyle(
                               fontSize: 20.0,
                               color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
                           Text(
-                            getUsers[1][1],
+                            getUsers[index][1],
                             style: TextStyle(
                               fontSize: 18.0,
                               color: const Color.fromARGB(255, 0, 0, 0),
@@ -72,7 +72,7 @@ class Home extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Member since: ${getUsers[1][2]}',
+                                'Member since: ${getUsers[index][2]}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: const Color.fromARGB(255, 0, 0, 0),
