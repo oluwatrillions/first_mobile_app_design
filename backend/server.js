@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static("public"));
 
 app.use("/signup", require("./api/users/signup"));
+app.use("/login", require("./api/users/login"));
 
 const PORT = 5500;
 

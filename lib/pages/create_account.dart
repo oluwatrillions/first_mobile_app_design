@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
+import 'package:first_app/models/login_credentials.dart';
 import 'package:first_app/pages/home.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -14,7 +18,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   final String apple = 'https://www.apple.com';
@@ -26,6 +30,31 @@ class _LoginState extends State<Login> {
     final Uri url = Uri.parse(link);
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
+    }
+  }
+
+  Future<LoginCredentials> loggedUser() async {
+    List<LoginCredentials> users = [];
+    try {
+      final response = await http.get(Uri.parse('http://10.0.2.2:5500/login'));
+      if (response.statusCode == 200) {
+        List<dynamic> data = jsonDecode(response.body);
+        users = data
+            .map((userJson) => LoginCredentials.fromJson(userJson))
+            .toList();
+
+        LoginCredentials loggedInUser = users.firstWhere(
+          (user) =>
+              user.email == emailController.text &&
+              user.password == passwordController.text,
+        );
+        print(loggedInUser.email);
+        return loggedInUser;
+      } else {
+        throw Exception('Failed to load users');
+      }
+    } catch (e) {
+      throw Exception('Failed to load users: $e');
     }
   }
 
@@ -89,8 +118,8 @@ class _LoginState extends State<Login> {
                     child: Column(
                       children: [
                         TextController(
-                          hintWord: "username",
-                          textController: usernameController,
+                          hintWord: "email",
+                          textController: emailController,
                         ),
 
                         SizedBox(height: 10.0),
@@ -113,14 +142,7 @@ class _LoginState extends State<Login> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 40.0),
-                  child: MyButtons(
-                    onPressed: () {
-                      Navigator.of(
-                        context,
-                      ).push(MaterialPageRoute(builder: (context) => Home()));
-                    },
-                    text: "Login",
-                  ),
+                  child: MyButtons(onPressed: loggedUser, text: "Login"),
                 ),
               ],
             ),

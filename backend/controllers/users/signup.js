@@ -14,7 +14,7 @@ const handleSignup = async (req, res) => {
 
   const userEmail = validateEmail.validate(req.body.email);
   if (!userEmail) {
-    return res.status(400).json("Invalid email");
+    return res.status(400).json({ message: "Invalid email" });
   }
 
   try {

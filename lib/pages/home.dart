@@ -6,7 +6,7 @@ class Home extends StatelessWidget {
 
   List<dynamic> getUsers = [
     ["Gonzalo Flores", "floresg@havilah.com", "2024-06-06"],
-    ["Mike Ttump", "trumpeter@yahoo.com", "2026-01-06"],
+    ["Mike Trump", "trumpeter@yahoo.com", "2026-01-06"],
     ["Johm Sandra", "sandy_jg@gmail.com", "2024-08-09"],
     ["Chris Page", "pager@nxt.com", "2025-24-12"],
   ];
