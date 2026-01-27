@@ -8,7 +8,6 @@ const handleLogin = async (req, res) => {
       .status(400)
       .json({ message: "Please enter your email and password" });
   }
-  ``;
   const user = await Users.findOne({ email }).exec();
 
   if (!user) {

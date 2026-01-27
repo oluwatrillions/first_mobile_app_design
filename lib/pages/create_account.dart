@@ -9,6 +9,7 @@ import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:collection/collection.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -43,11 +44,17 @@ class _LoginState extends State<Login> {
             .map((userJson) => LoginCredentials.fromJson(userJson))
             .toList();
 
-        LoginCredentials loggedInUser = users.firstWhere(
+        LoginCredentials? loggedInUser = users.firstWhereOrNull(
           (user) =>
               user.email == emailController.text &&
               user.password == passwordController.text,
         );
+
+        print(loggedInUser);
+
+        if (loggedInUser == null) {
+          throw Exception('Invalid email or password');
+        }
         print(loggedInUser.email);
         return loggedInUser;
       } else {

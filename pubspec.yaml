@@ -13,6 +13,7 @@ dependencies:
   url_launcher: ^6.2.5
   mongo_dart: ^0.10.5
   http: ^1.6.0
+  collection: ^1.17.0
 
 dev_dependencies:
   flutter_test:
