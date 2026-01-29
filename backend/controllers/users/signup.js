@@ -1,5 +1,6 @@
 const Users = require("../../model/users/signup");
 const validateEmail = require("email-validator");
+const bcrypt = require("bcrypt");
 
 const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
@@ -18,13 +19,13 @@ const handleSignup = async (req, res) => {
   }
 
   try {
-    // const hashedPwd = await bcrypt.hash(password, 12);
+    const hashedPwd = await bcrypt.hash(password, 12);
 
     const newUser = await Users.create({
       name: req.body.name,
       username: req.body.username,
       email,
-      password: req.body.password,
+      password: hashedPwd,
     });
 
     if (newUser) {
