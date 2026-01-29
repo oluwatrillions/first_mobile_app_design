@@ -4,7 +4,7 @@ import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
 import 'package:first_app/models/login_credentials.dart';
-import 'package:first_app/pages/home.dart';
+import 'package:first_app/pages/users.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,36 +34,44 @@ class _LoginState extends State<Login> {
     }
   }
 
-  Future<LoginCredentials> loggedUser() async {
-    List<LoginCredentials> users = [];
-    try {
-      final response = await http.get(Uri.parse('http://10.0.2.2:5500/login'));
-      if (response.statusCode == 200) {
-        List<dynamic> data = jsonDecode(response.body);
-        users = data
-            .map((userJson) => LoginCredentials.fromJson(userJson))
-            .toList();
+  // Future<LoginCredentials> loggedUser() async {
+  //   List<LoginCredentials> users = [];
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('http://10.0.2.2:5500/login'),
+  //       headers: {'Content-Type': 'application/json'},
+  //       body: jsonEncode({
+  //         'email': emailController.text,
+  //         'password': passwordController.text,
+  //       }),
+  //     );
 
-        LoginCredentials? loggedInUser = users.firstWhereOrNull(
-          (user) =>
-              user.email == emailController.text &&
-              user.password == passwordController.text,
-        );
+  //     final data = jsonDecode(response.body);
 
-        print(loggedInUser);
+  //     // if (!mounted) return;
 
-        if (loggedInUser == null) {
-          throw Exception('Invalid email or password');
-        }
-        print(loggedInUser.email);
-        return loggedInUser;
-      } else {
-        throw Exception('Failed to load users');
-      }
-    } catch (e) {
-      throw Exception('Failed to load users: $e');
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
+
+  //       Navigator.pushReplacement(
+  //         context,
+  //         MaterialPageRoute(builder: (context) => Users()),
+  //       );
+  //     } else if (response.statusCode == 401) {
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
+  //     } else if (response.statusCode == 400) {
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
+  //     }
+  //   } catch (e) {
+  //     throw Exception('Failed to load users: $e');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

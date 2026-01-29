@@ -1,8 +1,8 @@
-import 'package:first_app/pages/create_account.dart';
+import 'package:first_app/pages/login.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Users extends StatelessWidget {
+  Users({super.key});
 
   List<dynamic> getUsers = [
     ["Gonzalo Flores", "floresg@havilah.com", "2024-06-06"],
