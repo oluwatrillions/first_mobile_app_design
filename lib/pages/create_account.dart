@@ -127,6 +127,7 @@ class _LoginState extends State<Login> {
                         TextController(
                           hintWord: "email",
                           textController: emailController,
+                          obscureText: false,
                         ),
 
                         SizedBox(height: 10.0),
@@ -134,6 +135,7 @@ class _LoginState extends State<Login> {
                         TextController(
                           hintWord: "password",
                           textController: passwordController,
+                          obscureText: true,
                         ),
                       ],
                     ),

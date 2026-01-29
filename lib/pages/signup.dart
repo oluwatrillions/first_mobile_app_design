@@ -21,11 +21,12 @@ class _SignupState extends State<Signup> {
     try {
       final response = await http.post(
         Uri.parse('http://10.0.2.2:5500/signup'),
-        body: {
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
           'username': usernameController.text,
           'email': emailController.text,
           'password': passwordController.text,
-        },
+        }),
       );
 
       final data = jsonDecode(response.body);
@@ -116,13 +117,15 @@ class _SignupState extends State<Signup> {
                         TextController(
                           hintWord: "name",
                           textController: usernameController,
+                          obscureText: false,
                         ),
 
                         const SizedBox(height: 10.0),
 
                         TextController(
-                          hintWord: "email or phone",
+                          hintWord: "email",
                           textController: emailController,
+                          obscureText: false,
                         ),
 
                         const SizedBox(height: 10.0),
@@ -130,6 +133,7 @@ class _SignupState extends State<Signup> {
                         TextController(
                           hintWord: "password",
                           textController: passwordController,
+                          obscureText: true,
                         ),
                       ],
                     ),
