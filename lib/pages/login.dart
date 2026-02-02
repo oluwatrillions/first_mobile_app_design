@@ -34,44 +34,50 @@ class _LoginState extends State<Login> {
     }
   }
 
-  // Future<LoginCredentials> loggedUser() async {
-  //   List<LoginCredentials> users = [];
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse('http://10.0.2.2:5500/login'),
-  //       headers: {'Content-Type': 'application/json'},
-  //       body: jsonEncode({
-  //         'email': emailController.text,
-  //         'password': passwordController.text,
-  //       }),
-  //     );
+  Future<void> loggedUser() async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:5500/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': emailController.text,
+          'password': passwordController.text,
+        }),
+      );
 
-  //     final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
 
-  //     // if (!mounted) return;
+      if (!mounted) return;
 
-  //     if (response.statusCode == 200) {
-  //       ScaffoldMessenger.of(
-  //         context,
-  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(data['message'])));
 
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => Users()),
-  //       );
-  //     } else if (response.statusCode == 401) {
-  //       ScaffoldMessenger.of(
-  //         context,
-  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
-  //     } else if (response.statusCode == 400) {
-  //       ScaffoldMessenger.of(
-  //         context,
-  //       ).showSnackBar(SnackBar(content: Text(data['message'])));
-  //     }
-  //   } catch (e) {
-  //     throw Exception('Failed to load users: $e');
-  //   }
-  // }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Users()),
+        );
+      } else if (response.statusCode == 401) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(data['message'])));
+      } else if (response.statusCode == 400) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(data['message'])));
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Loging failed')));
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Connection error')));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
