@@ -14,7 +14,7 @@ const handleLogin = async (req, res) => {
     const user = await Users.findOne({ email: email }).exec();
 
     if (!user)
-      return res.status(401).json({ message: "Invalid email password" });
+      return res.status(401).json({ message: "Invalid email or password" });
 
     const userPwd = await bcrypt.compare(password, user.password);
 
@@ -29,7 +29,7 @@ const handleLogin = async (req, res) => {
         payload,
       });
     } else {
-      return res.status(401).json({ message: "Invalid email password" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
   } catch (error) {
     console.log("Login error", error);

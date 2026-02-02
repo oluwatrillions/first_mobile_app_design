@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
-import 'package:first_app/models/login_credentials.dart';
 import 'package:first_app/pages/users.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +68,7 @@ class _LoginState extends State<Login> {
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Loging failed')));
+        ).showSnackBar(SnackBar(content: Text('Login failed')));
       }
     } catch (e) {
       if (!mounted) return;
