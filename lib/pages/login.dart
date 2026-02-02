@@ -35,6 +35,13 @@ class _LoginState extends State<Login> {
 
   Future<void> loggedUser() async {
     try {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(child: CircularProgressIndicator());
+        },
+      );
+
       final response = await http.post(
         Uri.parse('http://10.0.2.2:5500/login'),
         headers: {'Content-Type': 'application/json'},
@@ -46,7 +53,11 @@ class _LoginState extends State<Login> {
 
       final data = jsonDecode(response.body);
 
+      await Future.delayed(Duration(seconds: 2));
+
       if (!mounted) return;
+
+      // Navigator.pop(context);
 
       if (response.statusCode == 200) {
         ScaffoldMessenger.of(
