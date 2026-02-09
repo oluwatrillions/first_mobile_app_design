@@ -1,7 +1,7 @@
 name: first_app
 
 environment:
-  sdk: "^3.8.0"
+  sdk: ">=2.12.0 <3.0.0"
   flutter: ">=3.8.0"
 
 flutter:
@@ -14,8 +14,11 @@ dependencies:
   mongo_dart: ^0.10.5
   http: ^1.6.0
   collection: ^1.17.0
+  flutter_riverpod: ^3.2.1
+  riverpod_annotation: ^4.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  riverpod_generator: ^4.0.3
