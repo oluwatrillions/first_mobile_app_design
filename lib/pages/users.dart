@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
 
 class Users extends StatefulWidget {
-  Users({super.key});
+  const Users({super.key});
+
+  // List<UserList> userList = [];
 
   @override
   State<Users> createState() => _UsersState();
 }
 
 class _UsersState extends State<Users> {
-  late Future<List<UserList>> userList;
-
   List<dynamic> getUsers = [
     ["Gonzalo Flores", "floresg@havilah.com", "2024-06-06"],
     ["Mike Trump", "trumpeter@yahoo.com", "2026-01-06"],
@@ -23,20 +23,27 @@ class _UsersState extends State<Users> {
   ];
 
   Future<List<UserList>> fetchUserList() async {
-    final response = await http.get(Uri.parse('http://10.0.2.2:5500/users'));
-    List data = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      print(data);
-      return data.map((json) => UserList.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load user list');
+    try {
+      final response = await http.get(
+        Uri.parse('http://10.0.2.2:5500/users'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> userList = jsonDecode(response.body);
+
+        return userList.map((json) => UserList.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load user list');
+      }
+    } catch (error) {
+      throw Exception('Failed to load user list: $error');
     }
   }
 
   @override
   void initState() {
     super.initState();
-    userList = fetchUserList();
+    fetchUserList();
   }
 
   @override

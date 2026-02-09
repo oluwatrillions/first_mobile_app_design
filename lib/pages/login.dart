@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:first_app/components/buttons.dart';
+import 'package:first_app/components/my_spinner.dart';
 import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/text_field.dart';
 import 'package:first_app/pages/users.dart';
@@ -35,12 +36,7 @@ class _LoginState extends State<Login> {
 
   Future<void> loggedUser() async {
     try {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Center(child: CircularProgressIndicator());
-        },
-      );
+      loadingSspinner(context);
 
       final response = await http.post(
         Uri.parse('http://10.0.2.2:5500/login'),
@@ -64,7 +60,7 @@ class _LoginState extends State<Login> {
           context,
         ).showSnackBar(SnackBar(content: Text(data['message'])));
 
-        Navigator.pushReplacement(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Users()),
         );

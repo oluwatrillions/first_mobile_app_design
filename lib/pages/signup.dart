@@ -1,4 +1,5 @@
 import 'package:first_app/components/buttons.dart';
+import 'package:first_app/components/my_spinner.dart';
 import 'package:first_app/components/text_field.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class _SignupState extends State<Signup> {
 
   Future<void> signupUser() async {
     try {
+      loadingSspinner(context);
+
       final response = await http.post(
         Uri.parse('http://10.0.2.2:5500/signup'),
         headers: {'Content-Type': 'application/json'},
@@ -32,6 +35,8 @@ class _SignupState extends State<Signup> {
       final data = jsonDecode(response.body);
 
       if (!mounted) return;
+
+      Navigator.pop(context);
 
       if (response.statusCode == 201) {
         ScaffoldMessenger.of(
