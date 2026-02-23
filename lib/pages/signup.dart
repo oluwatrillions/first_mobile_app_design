@@ -1,6 +1,7 @@
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/my_spinner.dart';
 import 'package:first_app/components/text_field.dart';
+import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,48 +18,6 @@ class _SignupState extends State<Signup> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
-
-  Future<void> signupUser() async {
-    try {
-      loadingSspinner(context);
-
-      final response = await http.post(
-        Uri.parse('http://10.0.2.2:5500/signup'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': usernameController.text,
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-      );
-
-      final data = jsonDecode(response.body);
-
-      if (!mounted) return;
-
-      Navigator.pop(context);
-
-      if (response.statusCode == 201) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'])));
-
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => Login()),
-        );
-      } else if (response.statusCode == 400) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'])));
-      }
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Connection error: $e')));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +41,7 @@ class _SignupState extends State<Signup> {
                       color: Color.fromARGB(255, 48, 38, 38),
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
                   Row(
                     children: [
                       const Text(
@@ -94,9 +51,7 @@ class _SignupState extends State<Signup> {
                           color: Color.fromARGB(255, 48, 38, 38),
                         ),
                       ),
-
                       const SizedBox(width: 5),
-
                       GestureDetector(
                         child: Text(
                           'sign in',
@@ -112,9 +67,7 @@ class _SignupState extends State<Signup> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20.0),
-
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
                     child: Column(
@@ -124,17 +77,13 @@ class _SignupState extends State<Signup> {
                           textController: usernameController,
                           obscureText: false,
                         ),
-
                         const SizedBox(height: 10.0),
-
                         TextController(
                           hintWord: "email",
                           textController: emailController,
                           obscureText: false,
                         ),
-
                         const SizedBox(height: 10.0),
-
                         TextController(
                           hintWord: "password",
                           textController: passwordController,
@@ -146,15 +95,13 @@ class _SignupState extends State<Signup> {
                 ],
               ),
             ),
-
             const SizedBox(height: 50.0),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 40.0),
-                  child: MyButtons(onPressed: signupUser, text: "Sign up"),
+                  child: MyButtons(onPressed: () {}, text: "Sign up"),
                 ),
               ],
             ),

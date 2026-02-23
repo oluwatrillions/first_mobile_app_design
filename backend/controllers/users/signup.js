@@ -5,7 +5,9 @@ const bcrypt = require("bcrypt");
 const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
   if (!username || !email || !password) {
-    return res.json({ message: "Please enter the following fields" });
+    return res
+      .status(401)
+      .json({ message: "Please enter the following fields" });
   }
 
   const user = await Users.findOne({ email }).exec();
@@ -31,7 +33,6 @@ const handleSignup = async (req, res) => {
     if (newUser) {
       res.status(201).json({
         newUser,
-        status: "success",
         message: "Account successfully created",
       });
     } else {
