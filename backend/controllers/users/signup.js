@@ -6,7 +6,7 @@ const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
   if (!username || !email || !password) {
     return res
-      .status(401)
+      .status(400)
       .json({ message: "Please enter the following fields" });
   }
 

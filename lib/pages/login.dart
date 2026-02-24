@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/my_spinner.dart';
 import 'package:first_app/components/socials.dart';
-import 'package:first_app/components/text_field.dart';
+import 'package:first_app/components/form_field.dart';
 import 'package:first_app/pages/users.dart';
 import 'package:first_app/pages/signup.dart';
 import 'package:flutter/material.dart';
@@ -107,9 +107,7 @@ class _LoginState extends State<Login> {
                       color: const Color.fromARGB(255, 48, 38, 38),
                     ),
                   ),
-
                   SizedBox(height: 10),
-
                   Row(
                     children: [
                       Text(
@@ -119,9 +117,7 @@ class _LoginState extends State<Login> {
                           color: const Color.fromARGB(255, 48, 38, 38),
                         ),
                       ),
-
                       SizedBox(width: 5),
-
                       GestureDetector(
                         child: Text(
                           'sign up',
@@ -137,25 +133,46 @@ class _LoginState extends State<Login> {
                       ),
                     ],
                   ),
-
                   SizedBox(height: 20.0),
-
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
                     child: Column(
                       children: [
-                        TextController(
-                          hintWord: "email",
+                        FormController(
+                          labelText: "email",
                           textController: emailController,
                           obscureText: false,
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: Icons.email,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Please enter your email";
+                            }
+                            if (value.trim().length < 4) {
+                              return "Email must be at least 4 characters";
+                            }
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                .hasMatch(value)) {
+                              return "Please enter a valid email address";
+                            }
+                            return null;
+                          },
                         ),
-
                         SizedBox(height: 10.0),
-
-                        TextController(
-                          hintWord: "password",
+                        FormController(
+                          labelText: "password",
                           textController: passwordController,
                           obscureText: true,
+                          prefixIcon: Icons.lock,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Please enter your password";
+                            }
+                            if (value.trim().length < 6) {
+                              return "Password must be at least 6 characters";
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ),
@@ -163,9 +180,7 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
-
             SizedBox(height: 50.0),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -175,9 +190,7 @@ class _LoginState extends State<Login> {
                 ),
               ],
             ),
-
             SizedBox(height: 50.0),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

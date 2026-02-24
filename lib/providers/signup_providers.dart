@@ -23,11 +23,13 @@ class SignUpNotifier extends _$SignUpNotifier {
     state = const AsyncLoading();
 
     try {
-      final data = await ref.read(signupServicesProvider).signUpUser(
-            name: name,
-            email: email,
-            password: password,
-          );
+      final response = ref.read(signupServicesProvider);
+
+      final data = await response.signUpUser(
+        name: name,
+        email: email,
+        password: password,
+      );
 
       if (data['success'] == true) {
         state = AsyncData(data['message']);

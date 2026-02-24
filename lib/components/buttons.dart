@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class MyButtons extends StatelessWidget {
   const MyButtons({super.key, required this.onPressed, required this.text});
 
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final String? text;
 
   @override
@@ -22,9 +22,7 @@ class MyButtons extends StatelessWidget {
               fontSize: 16.0,
             ),
           ),
-
           SizedBox(width: 5),
-
           Icon(Icons.login, color: Color.fromARGB(255, 39, 30, 30), size: 20),
         ],
       ),

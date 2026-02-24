@@ -1,24 +1,36 @@
 import 'package:flutter/material.dart';
 
-class TextController extends StatelessWidget {
-  final String hintWord;
+class FormController extends StatelessWidget {
+  final String labelText;
   final TextEditingController textController;
   final bool obscureText;
+  final String? Function(String?)? validator;
+  final TextInputType? keyboardType;
+  final IconData? prefixIcon;
+  final String? hintText;
 
-  const TextController({
+  const FormController({
     super.key,
-    required this.hintWord,
+    required this.labelText,
     required this.textController,
     required this.obscureText,
+    required this.validator,
+    this.keyboardType,
+    this.prefixIcon,
+    this.hintText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: textController,
       obscureText: obscureText,
+      validator: validator,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
-        hintText: hintWord,
+        labelText: labelText,
+        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+        hintText: hintText,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
