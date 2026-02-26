@@ -17,7 +17,7 @@ class Signup extends ConsumerStatefulWidget {
 }
 
 class _SignupState extends ConsumerState<Signup> {
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
@@ -25,7 +25,7 @@ class _SignupState extends ConsumerState<Signup> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _usernameController.dispose();
     _passwordController.dispose();
     _emailController.dispose();
     super.dispose();
@@ -37,7 +37,7 @@ class _SignupState extends ConsumerState<Signup> {
     final notifier = ref.read(signUpProvider.notifier); //camelCase
 
     await notifier.signUserUp(
-      name: _nameController.text.trim(),
+      username: _usernameController.text.trim(),
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     );
@@ -130,16 +130,18 @@ class _SignupState extends ConsumerState<Signup> {
                         child: Column(
                           children: [
                             FormController(
-                              labelText: "name",
-                              textController: _nameController,
+                              labelText: "username",
+                              textController: _usernameController,
                               prefixIcon: Icons.person,
                               obscureText: false,
                               validator: (value) {
                                 if (value == null || value.trim().isEmpty) {
-                                  return "Please enter your name";
+                                  print(_usernameController.text);
+                                  print(_usernameController);
+                                  return "Please enter your username";
                                 }
                                 if (value.trim().length < 4) {
-                                  return "Name must be at least 4 characters";
+                                  return "Username must be at least 4 characters";
                                 }
                                 return null;
                               },

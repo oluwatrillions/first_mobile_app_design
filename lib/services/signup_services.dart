@@ -6,7 +6,7 @@ class SignupServices {
   final String baseUrl = 'http://10.0.2.2:5500';
 
   Future<Map<String, dynamic>> signUpUser({
-    required String name,
+    required String username,
     required String email,
     required String password,
   }) async {
@@ -15,7 +15,7 @@ class SignupServices {
         Uri.parse('$baseUrl/signup'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'name': name,
+          'username': username,
           'email': email,
           'password': password,
         }),

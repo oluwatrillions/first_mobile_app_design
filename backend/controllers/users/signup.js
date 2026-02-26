@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 
 const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
+  console.log(username, email, password);
+
   if (!username || !email || !password) {
     return res
       .status(400)
@@ -26,7 +28,7 @@ const handleSignup = async (req, res) => {
     const newUser = await Users.create({
       name: req.body.name,
       username: req.body.username,
-      email,
+      email: req.body.email,
       password: hashedPwd,
     });
 

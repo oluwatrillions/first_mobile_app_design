@@ -16,7 +16,7 @@ class SignUpNotifier extends _$SignUpNotifier {
   }
 
   Future<void> signUserUp({
-    required String name,
+    required String username,
     required String email,
     required String password,
   }) async {
@@ -26,7 +26,7 @@ class SignUpNotifier extends _$SignUpNotifier {
       final response = ref.read(signupServicesProvider);
 
       final data = await response.signUpUser(
-        name: name,
+        username: username,
         email: email,
         password: password,
       );
