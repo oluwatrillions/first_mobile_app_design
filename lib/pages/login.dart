@@ -6,21 +6,23 @@ import 'package:first_app/components/socials.dart';
 import 'package:first_app/components/form_field.dart';
 import 'package:first_app/pages/users.dart';
 import 'package:first_app/pages/signup.dart';
+import 'package:first_app/providers/login_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:collection/collection.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
   const Login({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  ConsumerState<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+class _LoginState extends ConsumerState<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final String apple = 'https://www.apple.com';
   final String facebook = 'https://www.facebook.com';
@@ -34,55 +36,50 @@ class _LoginState extends State<Login> {
     }
   }
 
-  Future<void> loggedUser() async {
-    try {
-      loadingSspinner(context);
+  final _formkey = GlobalKey<FormState>();
 
-      final response = await http.post(
-        Uri.parse('http://10.0.2.2:5500/login'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-      );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
-      final data = jsonDecode(response.body);
+  Future<void> _handleLogin() async {
+    if (!_formkey.currentState!.validate()) return;
 
-      await Future.delayed(Duration(seconds: 2));
+    final notifier = ref.read(loginProvider.notifier);
 
-      if (!mounted) return;
+    await notifier.loginUser(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim());
 
-      Navigator.pop(context);
+    if (!mounted) return;
 
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'])));
+    final state = ref.read(loginProvider);
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Users()),
+    state.when(
+      data: (message) {
+        if (message != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message)),
+          );
+
+          if (!mounted) return;
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Users()),
+          );
+        }
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (error, stackTrace) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error.toString())),
         );
-      } else if (response.statusCode == 401) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'])));
-      } else if (response.statusCode == 400) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(data['message'])));
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Login failed')));
-      }
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Connection error')));
-    }
+      },
+    );
   }
 
   @override
@@ -136,45 +133,48 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 20.0),
                   Padding(
                     padding: const EdgeInsets.only(right: 40.0),
-                    child: Column(
-                      children: [
-                        FormController(
-                          labelText: "email",
-                          textController: emailController,
-                          obscureText: false,
-                          keyboardType: TextInputType.emailAddress,
-                          prefixIcon: Icons.email,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "Please enter your email";
-                            }
-                            if (value.trim().length < 4) {
-                              return "Email must be at least 4 characters";
-                            }
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                .hasMatch(value)) {
-                              return "Please enter a valid email address";
-                            }
-                            return null;
-                          },
-                        ),
-                        SizedBox(height: 10.0),
-                        FormController(
-                          labelText: "password",
-                          textController: passwordController,
-                          obscureText: true,
-                          prefixIcon: Icons.lock,
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "Please enter your password";
-                            }
-                            if (value.trim().length < 6) {
-                              return "Password must be at least 6 characters";
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
+                    child: Form(
+                      key: _formkey,
+                      child: Column(
+                        children: [
+                          FormController(
+                            labelText: "email",
+                            textController: _emailController,
+                            obscureText: false,
+                            keyboardType: TextInputType.emailAddress,
+                            prefixIcon: Icons.email,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Please enter your email";
+                              }
+                              if (value.trim().length < 4) {
+                                return "Email must be at least 4 characters";
+                              }
+                              if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                  .hasMatch(value)) {
+                                return "Please enter a valid email address";
+                              }
+                              return null;
+                            },
+                          ),
+                          SizedBox(height: 10.0),
+                          FormController(
+                            labelText: "password",
+                            textController: _passwordController,
+                            obscureText: true,
+                            prefixIcon: Icons.lock,
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Please enter your password";
+                              }
+                              if (value.trim().length < 6) {
+                                return "Password must be at least 6 characters";
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -186,7 +186,7 @@ class _LoginState extends State<Login> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 40.0),
-                  child: MyButtons(onPressed: loggedUser, text: "Login"),
+                  child: MyButtons(onPressed: _handleLogin, text: "Login"),
                 ),
               ],
             ),

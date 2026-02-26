@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 
 const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
-  console.log(username, email, password);
 
   if (!username || !email || !password) {
     return res
