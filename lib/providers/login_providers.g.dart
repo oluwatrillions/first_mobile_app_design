@@ -54,14 +54,14 @@ String _$loginServicesHash() => r'ac94364ee1f58d1b4f1e1d7241c83da896b38d4b';
 const loginProvider = LoginNotifierProvider._();
 
 final class LoginNotifierProvider
-    extends $NotifierProvider<LoginNotifier, AsyncValue<String?>> {
+    extends $AsyncNotifierProvider<LoginNotifier, String?> {
   const LoginNotifierProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
           name: r'loginProvider',
-          isAutoDispose: true,
+          isAutoDispose: false,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
@@ -72,27 +72,19 @@ final class LoginNotifierProvider
   @$internal
   @override
   LoginNotifier create() => LoginNotifier();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AsyncValue<String?> value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AsyncValue<String?>>(value),
-    );
-  }
 }
 
-String _$loginNotifierHash() => r'a30a71366d549ff56a16426c01bbfc99c6d63731';
+String _$loginNotifierHash() => r'e25d44acbbb26e2e8656d906cadd2cd6762a8aeb';
 
-abstract class _$LoginNotifier extends $Notifier<AsyncValue<String?>> {
-  AsyncValue<String?> build();
+abstract class _$LoginNotifier extends $AsyncNotifier<String?> {
+  FutureOr<String?> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<String?>, AsyncValue<String?>>;
+    final ref = this.ref as $Ref<AsyncValue<String?>, String?>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<String?>, AsyncValue<String?>>,
+        AnyNotifier<AsyncValue<String?>, String?>,
         AsyncValue<String?>,
         Object?,
         Object?>;

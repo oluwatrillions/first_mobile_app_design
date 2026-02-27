@@ -50,36 +50,15 @@ class _LoginState extends ConsumerState<Login> {
 
     final notifier = ref.read(loginProvider.notifier);
 
-    await notifier.loginUser(
+    final success = await notifier.loginUser(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim());
 
     if (!mounted) return;
 
-    final state = ref.read(loginProvider);
-
-    state.when(
-      data: (message) {
-        if (message != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message)),
-          );
-
-          if (!mounted) return;
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Users()),
-          );
-        }
-      },
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error.toString())),
-        );
-      },
-    );
+    if (success) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Users()));
+    }
   }
 
   @override

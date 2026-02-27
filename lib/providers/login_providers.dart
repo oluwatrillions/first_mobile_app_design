@@ -8,35 +8,30 @@ LoginServices loginServices(ref) {
   return LoginServices();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class LoginNotifier extends _$LoginNotifier {
   @override
-  AsyncValue<String?> build() {
-    return const AsyncData(null);
+  FutureOr<String?> build() {
+    return null;
   }
 
-  Future<void> loginUser({
+  Future<bool> loginUser({
     required String email,
     required String password,
   }) async {
+    final response = ref.read(loginServicesProvider);
     state = const AsyncLoading();
 
-    final response = ref.read(loginServicesProvider);
-    try {
+    state = await AsyncValue.guard(() async {
       final data = await response.loggedUser(email: email, password: password);
 
-      if (!ref.mounted) {
-        throw Exception('Provider was unmounted');
-      }
-
       if (data['success'] == true) {
-        state = AsyncData(data['message']);
+        return data['message'] as String?;
       } else {
-        state = AsyncError(data['message'], StackTrace.current);
+        throw Exception(data['message']);
       }
-    } catch (error, stackTrace) {
-      state = AsyncError('An error occured, please try again', stackTrace);
-      print({'Error': error, 'StackTrace': stackTrace});
-    }
+    });
+
+    return !state.hasError;
   }
 }
