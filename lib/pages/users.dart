@@ -19,7 +19,7 @@ class _UsersState extends State<Users> {
     ["Gonzalo Flores", "floresg@havilah.com", "2024-06-06"],
     ["Mike Trump", "trumpeter@yahoo.com", "2026-01-06"],
     ["Johm Sandra", "sandy_jg@gmail.com", "2024-08-09"],
-    ["Chris Page", "pager@nxt.com", "2025-24-12"],
+    ["Chrissy Page", "pager@nxt.com", "2025-24-12"],
   ];
 
   Future<List<UserList>> fetchUserList() async {
@@ -51,6 +51,17 @@ class _UsersState extends State<Users> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              );
+            },
+          ),
+        ],
         backgroundColor: Color.fromARGB(255, 218, 183, 224),
       ),
       backgroundColor: Color.fromARGB(255, 218, 183, 224),
@@ -71,7 +82,6 @@ class _UsersState extends State<Users> {
               ),
             ),
             SizedBox(height: 30.0),
-
             Expanded(
               child: ListView.builder(
                 itemCount: getUsers.length,
@@ -102,7 +112,6 @@ class _UsersState extends State<Users> {
                               color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

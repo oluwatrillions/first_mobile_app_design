@@ -10,12 +10,12 @@ part of 'signup_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(signupServices)
-const signupServicesProvider = SignupServicesProvider._();
+final signupServicesProvider = SignupServicesProvider._();
 
 final class SignupServicesProvider
     extends $FunctionalProvider<SignupServices, SignupServices, SignupServices>
     with $Provider<SignupServices> {
-  const SignupServicesProvider._()
+  SignupServicesProvider._()
       : super(
           from: null,
           argument: null,
@@ -51,11 +51,11 @@ final class SignupServicesProvider
 String _$signupServicesHash() => r'a611a65365113b3c88a64bfd6417409eb7826e0d';
 
 @ProviderFor(SignUpNotifier)
-const signUpProvider = SignUpNotifierProvider._();
+final signUpProvider = SignUpNotifierProvider._();
 
 final class SignUpNotifierProvider
     extends $NotifierProvider<SignUpNotifier, AsyncValue<String?>> {
-  const SignUpNotifierProvider._()
+  SignUpNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -89,13 +89,12 @@ abstract class _$SignUpNotifier extends $Notifier<AsyncValue<String?>> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<String?>, AsyncValue<String?>>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<String?>, AsyncValue<String?>>,
         AsyncValue<String?>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }

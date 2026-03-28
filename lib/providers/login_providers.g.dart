@@ -10,12 +10,12 @@ part of 'login_providers.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(loginServices)
-const loginServicesProvider = LoginServicesProvider._();
+final loginServicesProvider = LoginServicesProvider._();
 
 final class LoginServicesProvider
     extends $FunctionalProvider<LoginServices, LoginServices, LoginServices>
     with $Provider<LoginServices> {
-  const LoginServicesProvider._()
+  LoginServicesProvider._()
       : super(
           from: null,
           argument: null,
@@ -51,11 +51,11 @@ final class LoginServicesProvider
 String _$loginServicesHash() => r'ac94364ee1f58d1b4f1e1d7241c83da896b38d4b';
 
 @ProviderFor(LoginNotifier)
-const loginProvider = LoginNotifierProvider._();
+final loginProvider = LoginNotifierProvider._();
 
 final class LoginNotifierProvider
     extends $AsyncNotifierProvider<LoginNotifier, String?> {
-  const LoginNotifierProvider._()
+  LoginNotifierProvider._()
       : super(
           from: null,
           argument: null,
@@ -81,13 +81,12 @@ abstract class _$LoginNotifier extends $AsyncNotifier<String?> {
   @$mustCallSuper
   @override
   void runBuild() {
-    final created = build();
     final ref = this.ref as $Ref<AsyncValue<String?>, String?>;
     final element = ref.element as $ClassProviderElement<
         AnyNotifier<AsyncValue<String?>, String?>,
         AsyncValue<String?>,
         Object?,
         Object?>;
-    element.handleValue(ref, created);
+    element.handleCreate(ref, build);
   }
 }
