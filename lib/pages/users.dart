@@ -2,26 +2,19 @@ import 'dart:convert';
 
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
+import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:http/http.dart" as http;
 
-class Users extends StatefulWidget {
+class Users extends ConsumerStatefulWidget {
   const Users({super.key});
 
-  // List<UserList> userList = [];
-
   @override
-  State<Users> createState() => _UsersState();
+  ConsumerState<Users> createState() => _UsersState();
 }
 
-class _UsersState extends State<Users> {
-  List<dynamic> getUsers = [
-    ["Gonzalo Flores", "floresg@havilah.com", "2024-06-06"],
-    ["Mike Trump", "trumpeter@yahoo.com", "2026-01-06"],
-    ["Johm Sandra", "sandy_jg@gmail.com", "2024-08-09"],
-    ["Chrissy Page", "pager@nxt.com", "2025-24-12"],
-  ];
-
+class _UsersState extends ConsumerState<Users> {
   Future<List<UserList>> fetchUserList() async {
     try {
       final response = await http.get(
@@ -48,44 +41,49 @@ class _UsersState extends State<Users> {
 
   @override
   Widget build(BuildContext context) {
+    final usersNotifier = ref.watch(userListsProvider);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home Page'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
-          ),
-        ],
-        backgroundColor: Color.fromARGB(255, 218, 183, 224),
-      ),
-      backgroundColor: Color.fromARGB(255, 218, 183, 224),
-      body: Padding(
-        padding: EdgeInsets.only(top: 30.0, left: 30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 350,
-              child: Text(
-                'Check out our new users',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Color.fromARGB(255, 48, 38, 38),
-                ),
-              ),
+        appBar: AppBar(
+          title: Text('Home Page'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () =>
+                  ref.read(userListsProvider.notifier).refreshUsers(),
             ),
-            SizedBox(height: 30.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: getUsers.length,
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
+              },
+            ),
+          ],
+          backgroundColor: Color.fromARGB(255, 218, 183, 224),
+        ),
+        backgroundColor: Color.fromARGB(255, 218, 183, 224),
+        body: usersNotifier.when(
+          data: (users) {
+            if (users.isEmpty) {
+              return SizedBox(
+                width: 350,
+                child: Text(
+                  'Check out our new users',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    color: Color.fromARGB(255, 48, 38, 38),
+                  ),
+                ),
+              );
+            }
+
+            return ListView.builder(
+                itemCount: users.length,
                 itemBuilder: (context, index) {
+                  final user = users[index];
                   return Card(
                     elevation: 5,
                     margin: EdgeInsets.only(bottom: 20.0, right: 30.0),
@@ -99,14 +97,14 @@ class _UsersState extends State<Users> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            getUsers[index][0],
+                            user.username,
                             style: TextStyle(
                               fontSize: 20.0,
                               color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
                           Text(
-                            getUsers[index][1],
+                            user.email,
                             style: TextStyle(
                               fontSize: 18.0,
                               color: const Color.fromARGB(255, 0, 0, 0),
@@ -116,7 +114,7 @@ class _UsersState extends State<Users> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Member since: ${getUsers[index][2]}',
+                                'Member since: ${user.registeredDay.toString().substring(0, 10)}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: const Color.fromARGB(255, 0, 0, 0),
@@ -133,12 +131,15 @@ class _UsersState extends State<Users> {
                       ),
                     ),
                   );
-                },
-              ),
+                });
+          },
+          loading: () => Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(
+            child: Text(
+              'Error: $error',
+              style: TextStyle(color: Colors.red),
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

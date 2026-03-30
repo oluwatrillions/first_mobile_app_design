@@ -3,7 +3,10 @@ class UserList {
   final String email;
   final DateTime? registeredDay;
 
-  UserList({required this.username, required this.email, this.registeredDay});
+  UserList(
+      {required this.username,
+      required this.email,
+      required this.registeredDay});
 
   factory UserList.fromJson(Map<String, dynamic> json) {
     return UserList(
