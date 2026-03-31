@@ -56,8 +56,29 @@ class _LoginState extends ConsumerState<Login> {
 
     if (!mounted) return;
 
+    final state = ref.read(loginProvider);
+
     if (success) {
+      final message = state.when(
+        data: (message) => message,
+        loading: () => null,
+        error: (e, st) => e.toString(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message ?? 'Login was successful')),
+      );
       Navigator.push(context, MaterialPageRoute(builder: (context) => Users()));
+    } else {
+      final errorMessage = state.when(
+        data: (_) => ' ',
+        loading: () => null,
+        error: (e, _) => e.toString(),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage ?? 'Login failed')),
+      );
     }
   }
 

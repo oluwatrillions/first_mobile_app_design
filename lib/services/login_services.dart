@@ -29,16 +29,30 @@ class LoginServices {
       }
 
       if (response.statusCode == 200) {
-        print(data['message']);
         return {
           'success': true,
           'message': data['message'],
         };
-      } else {
-        print(data['message']);
+      } else if (response.statusCode == 401) {
         return {
           'success': false,
           'message': data['message'],
+        };
+      } else if (response.statusCode == 400) {
+        return {
+          'success': false,
+          'message': data['message'],
+        };
+      } else if (response.statusCode == 500) {
+        return {
+          'success': false,
+          'message': data['message'],
+        };
+      } else {
+        return {
+          'success': false,
+          'message':
+              'Unexpected error: ${response.statusCode}. Login failed, please try again.',
         };
       }
     } catch (e) {

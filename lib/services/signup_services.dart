@@ -32,17 +32,26 @@ class SignupServices {
         };
       }
 
-      if (response.statusCode == 201) {
-        print(data['message']);
+      if (response.statusCode == 201 || response.statusCode == 200) {
         return {
           'success': true,
           'message': data['message'],
         };
-      } else {
-        print(data['message']);
+      } else if (response.statusCode == 400) {
         return {
           'success': false,
           'message': data['message'],
+        };
+      } else if (response.statusCode == 409) {
+        return {
+          'success': false,
+          'message': data['message'],
+        };
+      } else {
+        return {
+          'success': false,
+          'message':
+              'Unexpected error: ${response.statusCode}. Signup failed, please try again.',
         };
       }
     } catch (e) {

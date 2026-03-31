@@ -58,11 +58,7 @@ class _SignupState extends ConsumerState<Signup> {
           );
         }
       },
-      loading: () => showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const CircularProgressIndicator(),
-      ),
+      loading: () => Center(child: const CircularProgressIndicator()),
       error: (error, stackTrace) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(error.toString())),

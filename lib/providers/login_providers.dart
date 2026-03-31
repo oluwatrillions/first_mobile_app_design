@@ -15,22 +15,27 @@ class LoginNotifier extends _$LoginNotifier {
     return null;
   }
 
-  Future<bool> loginUser({
-    required String email,
-    required String password,
-  }) async {
+  Future<bool> loginUser(
+      {required String email, required String password}) async {
     final response = ref.read(loginServicesProvider);
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
       final data = await response.loggedUser(email: email, password: password);
 
-      if (data['success'] == true) {
+      if (data['success']) {
         return data['message'] as String?;
       } else {
-        throw Exception(data['message']);
+        return (data['message']);
       }
     });
+
+    String? getMessage() {
+      return state.when(
+          data: (message) => message,
+          loading: () => null,
+          error: (e, st) => e.toString());
+    }
 
     return !state.hasError;
   }
