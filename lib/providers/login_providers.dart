@@ -26,17 +26,17 @@ class LoginNotifier extends _$LoginNotifier {
       if (data['success']) {
         return data['message'] as String?;
       } else {
-        return (data['message']);
+        throw Exception(data['message']);
       }
     });
 
-    String? getMessage() {
-      return state.when(
-          data: (message) => message,
-          loading: () => null,
-          error: (e, st) => e.toString());
-    }
-
     return !state.hasError;
+  }
+
+  String? getMessage() {
+    return state.when(
+        data: (message) => message,
+        loading: () => null,
+        error: (e, st) => e.toString());
   }
 }

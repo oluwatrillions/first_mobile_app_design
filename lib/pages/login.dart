@@ -60,19 +60,19 @@ class _LoginState extends ConsumerState<Login> {
 
     if (success) {
       final message = state.when(
-        data: (message) => message,
-        loading: () => null,
-        error: (e, st) => e.toString(),
+        data: (msg) => msg ?? 'Login was successful',
+        loading: () => '',
+        error: (_, __) => '',
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message ?? 'Login was successful')),
+        SnackBar(content: Text(message)),
       );
       Navigator.push(context, MaterialPageRoute(builder: (context) => Users()));
     } else {
       final errorMessage = state.when(
         data: (_) => ' ',
-        loading: () => null,
+        loading: () => '',
         error: (e, _) => e.toString(),
       );
 
