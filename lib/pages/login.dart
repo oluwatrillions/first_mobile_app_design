@@ -77,7 +77,7 @@ class _LoginState extends ConsumerState<Login> {
       );
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage ?? 'Login failed')),
+        SnackBar(content: Text(errorMessage)),
       );
     }
   }

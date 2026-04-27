@@ -41,10 +41,10 @@ class _UsersState extends ConsumerState<Users> {
 
   @override
   Widget build(BuildContext context) {
-    final usersNotifier = ref.watch(userListsProvider);
+    final usersState = ref.watch(userListsProvider);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Home Page'),
+          title: Text('User\'s Page'),
           actions: [
             IconButton(
               icon: Icon(Icons.refresh),
@@ -64,13 +64,14 @@ class _UsersState extends ConsumerState<Users> {
           backgroundColor: Color.fromARGB(255, 218, 183, 224),
         ),
         backgroundColor: Color.fromARGB(255, 218, 183, 224),
-        body: usersNotifier.when(
+        body: Container(
+            child: usersState.when(
           data: (users) {
             if (users.isEmpty) {
               return SizedBox(
                 width: 350,
                 child: Text(
-                  'Check out our new users',
+                  'There are no users',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24.0,
@@ -86,7 +87,8 @@ class _UsersState extends ConsumerState<Users> {
                   final user = users[index];
                   return Card(
                     elevation: 5,
-                    margin: EdgeInsets.only(bottom: 20.0, right: 30.0),
+                    margin:
+                        EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -140,6 +142,6 @@ class _UsersState extends ConsumerState<Users> {
               style: TextStyle(color: Colors.red),
             ),
           ),
-        ));
+        )));
   }
 }

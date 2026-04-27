@@ -33,10 +33,27 @@ class LoginNotifier extends _$LoginNotifier {
     return !state.hasError;
   }
 
-  String? getMessage() {
-    return state.when(
-        data: (message) => message,
-        loading: () => null,
-        error: (e, st) => e.toString());
+  Future<bool> logoutUser({required String email}) async {
+    final response = ref.read(loginServicesProvider);
+    state = const AsyncLoading();
+
+    state = await AsyncValue.guard(() async {
+      final data = await response.logoutUser(email: email);
+
+      if (data['success']) {
+        return data['message'] as String?;
+      } else {
+        throw Exception(data['message']);
+      }
+    });
+
+    return !state.hasError;
   }
+
+  // String? getMessage() {
+  //   return state.when(
+  //       data: (message) => message,
+  //       loading: () => null,
+  //       error: (e, st) => e.toString());
+  // }
 }

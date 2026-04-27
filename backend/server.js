@@ -16,6 +16,7 @@ app.use("/public", express.static("public"));
 app.use("/signup", require("./api/users/signup"));
 app.use("/login", require("./api/users/login"));
 app.use("/users", require("./api/users/getUsers"));
+app.use("/logout", require("./api/users/logout"));
 
 const PORT = 5500;
 

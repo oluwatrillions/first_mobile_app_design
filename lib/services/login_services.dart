@@ -59,4 +59,36 @@ class LoginServices {
       throw Exception('Connection error: $e');
     }
   }
+
+  Future<Map<String, dynamic>> logoutUser({required String email}) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/logout'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}),
+      );
+
+      Map<String, dynamic> data;
+
+      try {
+        data = jsonDecode(response.body);
+      } catch (e) {
+        throw Exception('Invalid response from server');
+      }
+
+      if (response.statusCode == 200) {
+        return {
+          'success': true,
+          'message': data['message'],
+        };
+      } else {
+        return {
+          'success': false,
+          'message': data['message'],
+        };
+      }
+    } catch (e) {
+      throw Exception('Logout failed: $e');
+    }
+  }
 }
