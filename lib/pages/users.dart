@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
+import 'package:first_app/pages/user_profile.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,10 +48,13 @@ class _UsersState extends ConsumerState<Users> {
           title: Text('User\'s Page'),
           actions: [
             IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () =>
-                  ref.read(userListsProvider.notifier).refreshUsers(),
-            ),
+                icon: Icon(Icons.person),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UserProfile()),
+                  );
+                }),
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {

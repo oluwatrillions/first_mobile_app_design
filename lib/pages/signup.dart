@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:first_app/components/buttons.dart';
 import 'package:first_app/components/my_spinner.dart';
 import 'package:first_app/components/form_field.dart';
@@ -7,6 +8,7 @@ import 'package:first_app/providers/signup_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 
 class Signup extends ConsumerStatefulWidget {
@@ -20,8 +22,19 @@ class _SignupState extends ConsumerState<Signup> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-
   final _formkey = GlobalKey<FormState>();
+
+  File? selectedAvatar;
+  final picker = ImagePicker();
+
+  Future<void> selectImage() async {
+    final selectedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage != null) {
+      setState(() {
+        selectedAvatar = File(selectedImage.path);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -74,7 +87,7 @@ class _SignupState extends ConsumerState<Signup> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 218, 183, 224),
       body: Padding(
-        padding: const EdgeInsets.only(top: 350.0, bottom: 50.0),
+        padding: const EdgeInsets.only(top: 250.0, bottom: 50.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -178,6 +191,30 @@ class _SignupState extends ConsumerState<Signup> {
                                 return null;
                               },
                             ),
+                            const SizedBox(height: 10.0),
+                            GestureDetector(
+                                onTap: selectImage,
+                                child: Container(
+                                  height: 150,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.grey),
+                                  ),
+                                  child: selectedAvatar != null
+                                      ? Image.file(selectedAvatar!,
+                                          fit: BoxFit.cover)
+                                      : const Center(
+                                          child: Text(
+                                            "Select Avatar",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                )),
                           ],
                         ),
                       ),
