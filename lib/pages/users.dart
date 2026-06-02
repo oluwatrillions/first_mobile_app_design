@@ -116,6 +116,12 @@ class _UsersState extends ConsumerState<Users> {
                               color: const Color.fromARGB(255, 0, 0, 0),
                             ),
                           ),
+                          CircleAvatar(
+                            backgroundImage: user.avatar != null
+                                ? NetworkImage(
+                                    'http://10.0.2.2:5500/public/avatar/${user.avatar}')
+                                : null,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [

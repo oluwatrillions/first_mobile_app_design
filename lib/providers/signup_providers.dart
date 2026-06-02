@@ -1,3 +1,4 @@
+import "dart:io";
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/signup_services.dart';
 
@@ -19,6 +20,7 @@ class SignUpNotifier extends _$SignUpNotifier {
     required String username,
     required String email,
     required String password,
+    File? avatar,
   }) async {
     state = const AsyncLoading();
 
@@ -29,9 +31,10 @@ class SignUpNotifier extends _$SignUpNotifier {
         username: username,
         email: email,
         password: password,
+        avatar: avatar,
       );
 
-      if (data['success'] == true) {
+      if (data['success']) {
         state = AsyncData(data['message']);
       } else {
         state = AsyncError(data['message'], StackTrace.current);

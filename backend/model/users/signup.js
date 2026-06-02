@@ -24,6 +24,9 @@ const Users = new userSchema({
     maxlength: 255,
     required: true,
   },
+  avatar: {
+    type: String,
+  },
   registeredAt: {
     type: Date,
     default: Date.now(),

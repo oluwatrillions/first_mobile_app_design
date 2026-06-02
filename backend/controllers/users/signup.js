@@ -1,6 +1,24 @@
 const Users = require("../../model/users/signup");
 const validateEmail = require("email-validator");
+const path = require("path");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../../public/avatar/"));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "_" + file.originalname);
+  },
+});
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 3,
+  },
+}).single("avatar");
 
 const handleSignup = async (req, res) => {
   let { username, email, password, name } = req.body;
@@ -29,6 +47,7 @@ const handleSignup = async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: hashedPwd,
+      avatar: req.file ? req.file.filename : "../../public/avatar/default.png",
     });
 
     if (newUser) {
@@ -44,4 +63,4 @@ const handleSignup = async (req, res) => {
   }
 };
 
-module.exports = handleSignup;
+module.exports = { handleSignup, upload };

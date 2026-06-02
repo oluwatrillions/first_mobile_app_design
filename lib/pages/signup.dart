@@ -47,12 +47,13 @@ class _SignupState extends ConsumerState<Signup> {
   Future<void> _handleSignUp() async {
     if (!_formkey.currentState!.validate()) return;
 
-    final notifier = ref.read(signUpProvider.notifier); //camelCase
+    final notifier = ref.read(signUpProvider.notifier);
 
     await notifier.signUserUp(
       username: _usernameController.text.trim(),
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
+      avatar: selectedAvatar,
     );
 
     if (!mounted) return;
@@ -86,7 +87,7 @@ class _SignupState extends ConsumerState<Signup> {
 
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 218, 183, 224),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 250.0, bottom: 50.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -176,30 +177,31 @@ class _SignupState extends ConsumerState<Signup> {
                                   return null;
                                 }),
                             const SizedBox(height: 10.0),
-                            FormController(
-                              labelText: "password",
-                              textController: _passwordController,
-                              obscureText: true,
-                              prefixIcon: Icons.lock,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Please enter your password";
-                                }
-                                if (value.length < 6) {
-                                  return "Password must be at least 6 characters";
-                                }
-                                return null;
-                              },
+                            SingleChildScrollView(
+                              child: FormController(
+                                labelText: "password",
+                                textController: _passwordController,
+                                obscureText: true,
+                                prefixIcon: Icons.lock,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your password";
+                                  }
+                                  if (value.length < 6) {
+                                    return "Password must be at least 6 characters";
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                             const SizedBox(height: 10.0),
                             GestureDetector(
                                 onTap: selectImage,
                                 child: Container(
-                                  height: 150,
-                                  width: 150,
+                                  height: 60,
+                                  width: 350,
                                   decoration: BoxDecoration(
-                                    color: Colors.grey[300],
-                                    borderRadius: BorderRadius.circular(10),
+                                    borderRadius: BorderRadius.circular(15),
                                     border: Border.all(color: Colors.grey),
                                   ),
                                   child: selectedAvatar != null
@@ -207,10 +209,11 @@ class _SignupState extends ConsumerState<Signup> {
                                           fit: BoxFit.cover)
                                       : const Center(
                                           child: Text(
-                                            "Select Avatar",
+                                            "Select Image",
                                             style: TextStyle(
                                               fontSize: 18,
-                                              color: Colors.grey,
+                                              color: Color.fromARGB(
+                                                  255, 12, 12, 12),
                                             ),
                                           ),
                                         ),

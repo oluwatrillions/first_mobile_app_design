@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -9,30 +10,32 @@ class SignupServices {
     required String username,
     required String email,
     required String password,
+    File? avatar,
   }) async {
     try {
-      final response = await http.post(
+      final request = http.MultipartRequest(
+        'POST',
         Uri.parse('$baseUrl/signup'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'username': username,
-          'email': email,
-          'password': password,
-        }),
       );
 
-      Map<String, dynamic> data;
+      request.fields['username'] = username;
+      request.fields['email'] = email;
+      request.fields['password'] = password;
 
-      try {
-        data = jsonDecode(response.body);
-      } catch (e) {
-        return {
-          'success': false,
-          'message': 'Invalid response from server',
-        };
+      if (avatar != null) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            'avatar',
+            avatar.path,
+          ),
+        );
       }
 
-      if (response.statusCode == 201 || response.statusCode == 200) {
+      final response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+      final data = jsonDecode(responseBody);
+
+      if (response.statusCode == 201) {
         return {
           'success': true,
           'message': data['message'],
@@ -55,7 +58,10 @@ class SignupServices {
         };
       }
     } catch (e) {
-      throw Exception('Connection error: $e');
+      return {
+        "success": false,
+        "message": 'Connection error: $e',
+      };
     }
   }
 }
