@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:first_app/pages/user_profile.dart';
+import 'package:first_app/providers/login_providers.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,9 +18,10 @@ class Users extends ConsumerStatefulWidget {
 
 class _UsersState extends ConsumerState<Users> {
   Future<List<UserList>> fetchUserList() async {
+    final String baseUrl = 'http://10.0.2.2:5500';
     try {
       final response = await http.get(
-        Uri.parse('http://10.0.2.2:5500/users'),
+        Uri.parse('$baseUrl/users'),
         headers: {'Content-Type': 'application/json'},
       );
       if (response.statusCode == 200) {
@@ -31,6 +33,12 @@ class _UsersState extends ConsumerState<Users> {
       }
     } catch (error) {
       throw Exception('Failed to load user list: $error');
+    }
+  }
+
+  Future<void> logoutUser(String email) async {
+    try {} catch (error) {
+      throw Exception('Failed to logout user: $error');
     }
   }
 
