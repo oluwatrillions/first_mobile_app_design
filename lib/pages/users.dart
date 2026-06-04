@@ -120,7 +120,8 @@ class _UsersState extends ConsumerState<Users> {
                             backgroundImage: user.avatar != null
                                 ? NetworkImage(
                                     'http://10.0.2.2:5500/public/avatar/${user.avatar}')
-                                : null,
+                                : NetworkImage(
+                                    'http://10.0.2.2:5500/public/avatar/default.png'),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,

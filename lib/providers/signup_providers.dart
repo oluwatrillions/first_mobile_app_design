@@ -1,4 +1,5 @@
 import "dart:io";
+import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/signup_services.dart';
 
@@ -35,6 +36,7 @@ class SignUpNotifier extends _$SignUpNotifier {
       );
 
       if (data['success']) {
+        ref.invalidate(userlistsProvider);
         state = AsyncData(data['message']);
       } else {
         state = AsyncError(data['message'], StackTrace.current);
