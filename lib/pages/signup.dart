@@ -177,22 +177,20 @@ class _SignupState extends ConsumerState<Signup> {
                                   return null;
                                 }),
                             const SizedBox(height: 10.0),
-                            SingleChildScrollView(
-                              child: FormController(
-                                labelText: "password",
-                                textController: _passwordController,
-                                obscureText: true,
-                                prefixIcon: Icons.lock,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter your password";
-                                  }
-                                  if (value.length < 6) {
-                                    return "Password must be at least 6 characters";
-                                  }
-                                  return null;
-                                },
-                              ),
+                            FormController(
+                              labelText: "password",
+                              textController: _passwordController,
+                              obscureText: true,
+                              prefixIcon: Icons.lock,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your password";
+                                }
+                                if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
+                                }
+                                return null;
+                              },
                             ),
                             const SizedBox(height: 10.0),
                             GestureDetector(

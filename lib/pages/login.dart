@@ -87,7 +87,7 @@ class _LoginState extends ConsumerState<Login> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 218, 183, 224),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top: 350.0, bottom: 50.0),
+        padding: const EdgeInsets.only(top: 250.0, bottom: 50.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
