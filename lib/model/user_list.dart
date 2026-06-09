@@ -10,6 +10,7 @@ class UserList {
       required this.registeredDay,
       this.avatar});
 
+  // Deserializing Userlist from JSON to Map to Dart Object.
   factory UserList.fromJson(Map<String, dynamic> json) {
     return UserList(
       username: json['username'],
@@ -19,6 +20,7 @@ class UserList {
     );
   }
 
+  // Serializing Userlist from Dart Object to Map to JSON.
   Map<String, dynamic> toJson() {
     return {
       'username': username,
