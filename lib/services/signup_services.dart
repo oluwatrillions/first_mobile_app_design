@@ -45,6 +45,11 @@ class SignupServices {
           'success': false,
           'message': data['message'],
         };
+      } else if (response.statusCode == 404) {
+        return {
+          'success': false,
+          'message': data['message'],
+        };
       } else if (response.statusCode == 409) {
         return {
           'success': false,

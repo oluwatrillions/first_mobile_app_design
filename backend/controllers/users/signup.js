@@ -1,5 +1,6 @@
 const Users = require("../../model/users/signup");
 const validateEmail = require("email-validator");
+const jwt = require("jsonwebtoken");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
@@ -45,9 +46,10 @@ const handleSignup = async (req, res) => {
     const newUser = await Users.create({
       name: req.body.name,
       username: req.body.username,
-      email: req.body.email,
+      email: userEmail ? req.body.email : null,
       password: hashedPwd,
       avatar: req.file ? req.file.filename : "../../public/avatar/default.png",
+      refreshToken: null,
     });
 
     if (newUser) {
