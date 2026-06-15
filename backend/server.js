@@ -18,8 +18,6 @@ app.use("/login", require("./api/users/login"));
 app.use("/users", require("./api/users/getUsers"));
 app.use("/logout", require("./api/users/logout"));
 
-const PORT = 5500;
-
 app.listen(process.env.PORT, "0.0.0.0", () => {
   console.log(`listening on port ${process.env.PORT}`);
 });
