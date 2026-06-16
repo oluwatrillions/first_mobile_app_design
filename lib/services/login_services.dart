@@ -1,9 +1,11 @@
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import "dart:convert";
 
 class LoginServices {
   final String baseUrl = 'http://10.0.2.2:5500';
+  final _storage = const FlutterSecureStorage();
 
   Future<Map<String, dynamic>> loggedUser(
       {required String email, required String password}) async {
@@ -29,9 +31,12 @@ class LoginServices {
       }
 
       if (response.statusCode == 200) {
+        await _storage.write(key: 'access_token', value: data['accessToken']);
+        await _storage.write(key: 'refresh_token', value: data['refreshToken']);
         return {
           'success': true,
           'message': data['message'],
+          'payload': data['payload'],
         };
       } else if (response.statusCode == 401) {
         return {

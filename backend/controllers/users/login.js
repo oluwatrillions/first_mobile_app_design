@@ -28,7 +28,7 @@ const handleLogin = async (req, res) => {
       };
 
       const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "15m",
       });
       const refresh_token = jwt.sign(
         payload,
@@ -37,11 +37,13 @@ const handleLogin = async (req, res) => {
           expiresIn: "7d",
         },
       );
+      user.accessToken = access_token;
       user.refreshToken = refresh_token;
       await user.save();
       return res.status(200).json({
         message: `${user.username} logged in successfully`,
         payload,
+        accessToken: access_token,
         refreshToken: refresh_token,
       });
     } else {

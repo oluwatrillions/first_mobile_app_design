@@ -31,6 +31,9 @@ const Users = new userSchema({
     type: Date,
     default: Date.now(),
   },
+  accessToken: {
+    type: String,
+  },
   refreshToken: {
     type: String,
   },
