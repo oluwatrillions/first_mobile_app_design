@@ -1,13 +1,15 @@
 const Users = require("../../model/users/signup");
 
 const handleLogout = async (req, res) => {
-  const { email } = req.body;
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) return res.status(400).json({ message: "Bad Request" });
 
   try {
-    const user = await Users.findOne({ email: email }).exec();
+    const user = await Users.findOne({ refreshToken }).exec();
 
     if (user) {
-      user.email = "";
+      user.refreshToken = "";
 
       await user.save();
       return res
@@ -19,4 +21,4 @@ const handleLogout = async (req, res) => {
   }
 };
 
-module.exports = handleLogout;
+module.exports = { handleLogout };
