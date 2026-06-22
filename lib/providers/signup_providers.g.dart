@@ -48,7 +48,7 @@ final class SignupServicesProvider
   }
 }
 
-String _$signupServicesHash() => r'a611a65365113b3c88a64bfd6417409eb7826e0d';
+String _$signupServicesHash() => r'8d4f08d522251f13b06f4013cfe47e94ac0b90d8';
 
 @ProviderFor(SignUpNotifier)
 final signUpProvider = SignUpNotifierProvider._();

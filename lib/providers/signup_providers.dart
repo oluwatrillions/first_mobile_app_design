@@ -6,7 +6,7 @@ import '../services/signup_services.dart';
 part 'signup_providers.g.dart';
 
 @riverpod
-SignupServices signupServices(ref) {
+SignupServices signupServices(Ref ref) {
   return SignupServices();
 }
 

@@ -5,7 +5,7 @@ import '../services/user_list.dart';
 part 'user_lists_providers.g.dart';
 
 @riverpod
-UserLists userlists(ref) {
+UserLists userlists(Ref ref) {
   return UserLists();
 }
 

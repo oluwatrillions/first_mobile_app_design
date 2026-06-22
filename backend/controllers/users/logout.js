@@ -21,4 +21,4 @@ const handleLogout = async (req, res) => {
   }
 };
 
-module.exports = { handleLogout };
+module.exports = handleLogout;

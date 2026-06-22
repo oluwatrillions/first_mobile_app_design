@@ -4,7 +4,7 @@ import '../services/login_services.dart';
 part 'login_providers.g.dart';
 
 @riverpod
-LoginServices loginServices(ref) {
+LoginServices loginServices(Ref ref) {
   return LoginServices();
 }
 
