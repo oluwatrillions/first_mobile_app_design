@@ -54,7 +54,7 @@ String _$userlistsHash() => r'5e12db81dfe374496e9ccaaa8a6dc24bea8cbbdd';
 final userListsProvider = UserListsNotifierProvider._();
 
 final class UserListsNotifierProvider
-    extends $AsyncNotifierProvider<UserListsNotifier, List<UserList>> {
+    extends $AsyncNotifierProvider<UserListsNotifier, UserList> {
   UserListsNotifierProvider._()
       : super(
           from: null,
@@ -74,17 +74,17 @@ final class UserListsNotifierProvider
   UserListsNotifier create() => UserListsNotifier();
 }
 
-String _$userListsNotifierHash() => r'53b2e36cd8ab030eaef0f7fb29a6ed19a545f0d6';
+String _$userListsNotifierHash() => r'ad0cfb27ee117959a5945dfbb9188b9226124955';
 
-abstract class _$UserListsNotifier extends $AsyncNotifier<List<UserList>> {
-  FutureOr<List<UserList>> build();
+abstract class _$UserListsNotifier extends $AsyncNotifier<UserList> {
+  FutureOr<UserList> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<UserList>>, List<UserList>>;
+    final ref = this.ref as $Ref<AsyncValue<UserList>, UserList>;
     final element = ref.element as $ClassProviderElement<
-        AnyNotifier<AsyncValue<List<UserList>>, List<UserList>>,
-        AsyncValue<List<UserList>>,
+        AnyNotifier<AsyncValue<UserList>, UserList>,
+        AsyncValue<UserList>,
         Object?,
         Object?>;
     element.handleCreate(ref, build);

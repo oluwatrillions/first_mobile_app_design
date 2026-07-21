@@ -12,11 +12,11 @@ UserLists userlists(Ref ref) {
 @Riverpod(keepAlive: true)
 class UserListsNotifier extends _$UserListsNotifier {
   @override
-  FutureOr<List<UserList>> build() {
+  FutureOr<UserList> build() {
     return fetchUsers();
   }
 
-  Future<List<UserList>> fetchUsers() async {
+  Future<UserList> fetchUsers() async {
     final response = ref.read(userlistsProvider);
     return await response.fetchUsers();
   }

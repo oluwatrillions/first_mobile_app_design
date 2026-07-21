@@ -17,29 +17,9 @@ class Users extends ConsumerStatefulWidget {
 }
 
 class _UsersState extends ConsumerState<Users> {
-  Future<List<UserList>> fetchUserList() async {
-    final String baseUrl = 'http://10.0.2.2:5500';
-    try {
-      final response = await http.get(
-        Uri.parse('$baseUrl/users'),
-        headers: {'Content-Type': 'application/json'},
-      );
-      if (response.statusCode == 200) {
-        final List<dynamic> userList = jsonDecode(response.body);
-
-        return userList.map((json) => UserList.fromJson(json)).toList();
-      } else {
-        throw Exception('Failed to load user list');
-      }
-    } catch (error) {
-      throw Exception('Failed to load user list: $error');
-    }
-  }
-
-  Future<void> logoutUser(String email) async {
-    try {} catch (error) {
-      throw Exception('Failed to logout user: $error');
-    }
+  Future<UserList> fetchUserList() async {
+    final userListsNotifier = ref.read(userListsProvider.notifier);
+    return await userListsNotifier.fetchUsers();
   }
 
   @override
@@ -79,7 +59,7 @@ class _UsersState extends ConsumerState<Users> {
         body: Container(
             child: usersState.when(
           data: (users) {
-            if (users.isEmpty) {
+            if (users.users.isEmpty) {
               return SizedBox(
                 width: 350,
                 child: Text(
@@ -94,9 +74,9 @@ class _UsersState extends ConsumerState<Users> {
             }
 
             return ListView.builder(
-                itemCount: users.length,
+                itemCount: users.users.length,
                 itemBuilder: (context, index) {
-                  final user = users[index];
+                  final user = users.users[index];
                   return Card(
                     elevation: 5,
                     margin:
@@ -125,17 +105,13 @@ class _UsersState extends ConsumerState<Users> {
                             ),
                           ),
                           CircleAvatar(
-                            backgroundImage: user.avatar != null
-                                ? NetworkImage(
-                                    'http://10.0.2.2:5500/public/avatar/${user.avatar}')
-                                : NetworkImage(
-                                    'http://10.0.2.2:5500/public/avatar/default.png'),
-                          ),
+                              backgroundImage: NetworkImage(
+                                  'http://10.0.2.2:5500/public/avatar/${user.avatar}')),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Member since: ${user.registeredDay.toString().substring(0, 10)}',
+                                'Member since: ${user.registeredDay.toString()}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: const Color.fromARGB(255, 0, 0, 0),

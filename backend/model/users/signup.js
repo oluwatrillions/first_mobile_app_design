@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const userSchema = mongoose.Schema;
 
 const Users = new userSchema({
+  // _id: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   unique: true,
+  // },
   name: {
     type: String,
     minlength: 4,
@@ -29,7 +33,7 @@ const Users = new userSchema({
   },
   registeredAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   refreshToken: {
     type: String,

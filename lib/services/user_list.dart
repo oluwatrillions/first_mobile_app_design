@@ -6,7 +6,7 @@ import "dart:convert";
 class UserLists {
   final String baseUrl = 'http://10.0.2.2:5500';
 
-  Future<List<UserList>> fetchUsers() async {
+  Future<UserList> fetchUsers() async {
     try {
       final response = await http.get(
         Uri.parse('$baseUrl/users'),
@@ -14,8 +14,9 @@ class UserLists {
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> userList = jsonDecode(response.body);
-        return userList.map((json) => UserList.fromJson(json)).toList();
+        final List<dynamic> usersData = jsonDecode(response.body);
+        final UserList userList = UserList.fromJson({'users': usersData});
+        return userList;
       } else {
         throw Exception('Failed to load user list');
       }

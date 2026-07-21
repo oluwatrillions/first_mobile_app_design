@@ -1,5 +1,6 @@
 {
     "liveServer.settings.port": 5501,
     "dart.previewFlutterUiGuides": true,
-    "dart.previewFlutterUiGuidesCustomTracking": true
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+    "explorer.compactFolders": false
 }
