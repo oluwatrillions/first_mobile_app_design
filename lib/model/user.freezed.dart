@@ -18,7 +18,7 @@ mixin _$User {
   String? get name;
   String get username;
   String get email;
-  String get avatar;
+  String? get avatar;
   String? get registeredDay;
 
   /// Create a copy of User
@@ -65,7 +65,7 @@ abstract mixin class $UserCopyWith<$Res> {
       {String? name,
       String username,
       String email,
-      String avatar,
+      String? avatar,
       String? registeredDay});
 }
 
@@ -84,7 +84,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? name = freezed,
     Object? username = null,
     Object? email = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
     Object? registeredDay = freezed,
   }) {
     return _then(_self.copyWith(
@@ -100,10 +100,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       registeredDay: freezed == registeredDay
           ? _self.registeredDay
           : registeredDay // ignore: cast_nullable_to_non_nullable
@@ -205,8 +205,8 @@ extension UserPatterns on User {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? name, String username, String email, String avatar,
-            String? registeredDay)?
+    TResult Function(String? name, String username, String email,
+            String? avatar, String? registeredDay)?
         $default, {
     required TResult orElse(),
   }) {
@@ -235,8 +235,8 @@ extension UserPatterns on User {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? name, String username, String email, String avatar,
-            String? registeredDay)
+    TResult Function(String? name, String username, String email,
+            String? avatar, String? registeredDay)
         $default,
   ) {
     final _that = this;
@@ -264,7 +264,7 @@ extension UserPatterns on User {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String? name, String username, String email,
-            String avatar, String? registeredDay)?
+            String? avatar, String? registeredDay)?
         $default,
   ) {
     final _that = this;
@@ -285,7 +285,7 @@ class _User implements User {
       {this.name,
       required this.username,
       required this.email,
-      required this.avatar,
+      this.avatar,
       this.registeredDay});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -297,7 +297,7 @@ class _User implements User {
   @override
   final String email;
   @override
-  final String avatar;
+  final String? avatar;
   @override
   final String? registeredDay;
 
@@ -351,7 +351,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String? name,
       String username,
       String email,
-      String avatar,
+      String? avatar,
       String? registeredDay});
 }
 
@@ -370,7 +370,7 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
     Object? name = freezed,
     Object? username = null,
     Object? email = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
     Object? registeredDay = freezed,
   }) {
     return _then(_User(
@@ -386,10 +386,10 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       registeredDay: freezed == registeredDay
           ? _self.registeredDay
           : registeredDay // ignore: cast_nullable_to_non_nullable

@@ -10,7 +10,7 @@ abstract class User with _$User {
     String? name,
     required String username,
     required String email,
-    required String avatar,
+    String? avatar,
     String? registeredDay,
   }) = _User;
 
