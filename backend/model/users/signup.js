@@ -30,9 +30,11 @@ const Users = new userSchema({
   },
   avatar: {
     type: String,
+    required: true,
   },
   registeredAt: {
     type: Date,
+    required: true,
     default: Date.now,
   },
   refreshToken: {

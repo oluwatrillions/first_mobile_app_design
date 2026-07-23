@@ -77,6 +77,10 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
+                  print(user.username);
+                  print(user.email);
+                  print(user.avatar);
+                  print(user.registeredAt);
                   return Card(
                     elevation: 5,
                     margin:
@@ -111,7 +115,7 @@ class _UsersState extends ConsumerState<Users> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Member since: ${user.registeredDay.toString()}',
+                                'Member since: ${user.registeredAt.toString()}',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: const Color.fromARGB(255, 0, 0, 0),

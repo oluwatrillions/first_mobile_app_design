@@ -18,8 +18,8 @@ mixin _$User {
   String? get name;
   String get username;
   String get email;
-  String? get avatar;
-  String? get registeredDay;
+  String get avatar;
+  String get registeredAt;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -41,18 +41,18 @@ mixin _$User {
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.registeredDay, registeredDay) ||
-                other.registeredDay == registeredDay));
+            (identical(other.registeredAt, registeredAt) ||
+                other.registeredAt == registeredAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, username, email, avatar, registeredDay);
+      Object.hash(runtimeType, name, username, email, avatar, registeredAt);
 
   @override
   String toString() {
-    return 'User(name: $name, username: $username, email: $email, avatar: $avatar, registeredDay: $registeredDay)';
+    return 'User(name: $name, username: $username, email: $email, avatar: $avatar, registeredAt: $registeredAt)';
   }
 }
 
@@ -65,8 +65,8 @@ abstract mixin class $UserCopyWith<$Res> {
       {String? name,
       String username,
       String email,
-      String? avatar,
-      String? registeredDay});
+      String avatar,
+      String registeredAt});
 }
 
 /// @nodoc
@@ -84,8 +84,8 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? name = freezed,
     Object? username = null,
     Object? email = null,
-    Object? avatar = freezed,
-    Object? registeredDay = freezed,
+    Object? avatar = null,
+    Object? registeredAt = null,
   }) {
     return _then(_self.copyWith(
       name: freezed == name
@@ -100,14 +100,14 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: freezed == avatar
+      avatar: null == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
-      registeredDay: freezed == registeredDay
-          ? _self.registeredDay
-          : registeredDay // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      registeredAt: null == registeredAt
+          ? _self.registeredAt
+          : registeredAt // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -205,8 +205,8 @@ extension UserPatterns on User {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String? name, String username, String email,
-            String? avatar, String? registeredDay)?
+    TResult Function(String? name, String username, String email, String avatar,
+            String registeredAt)?
         $default, {
     required TResult orElse(),
   }) {
@@ -214,7 +214,7 @@ extension UserPatterns on User {
     switch (_that) {
       case _User() when $default != null:
         return $default(_that.name, _that.username, _that.email, _that.avatar,
-            _that.registeredDay);
+            _that.registeredAt);
       case _:
         return orElse();
     }
@@ -235,15 +235,15 @@ extension UserPatterns on User {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String? name, String username, String email,
-            String? avatar, String? registeredDay)
+    TResult Function(String? name, String username, String email, String avatar,
+            String registeredAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _User():
         return $default(_that.name, _that.username, _that.email, _that.avatar,
-            _that.registeredDay);
+            _that.registeredAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -264,14 +264,14 @@ extension UserPatterns on User {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String? name, String username, String email,
-            String? avatar, String? registeredDay)?
+            String avatar, String registeredAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _User() when $default != null:
         return $default(_that.name, _that.username, _that.email, _that.avatar,
-            _that.registeredDay);
+            _that.registeredAt);
       case _:
         return null;
     }
@@ -285,8 +285,8 @@ class _User implements User {
       {this.name,
       required this.username,
       required this.email,
-      this.avatar,
-      this.registeredDay});
+      required this.avatar,
+      required this.registeredAt});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 // required String id,
@@ -297,9 +297,9 @@ class _User implements User {
   @override
   final String email;
   @override
-  final String? avatar;
+  final String avatar;
   @override
-  final String? registeredDay;
+  final String registeredAt;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -326,18 +326,18 @@ class _User implements User {
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.registeredDay, registeredDay) ||
-                other.registeredDay == registeredDay));
+            (identical(other.registeredAt, registeredAt) ||
+                other.registeredAt == registeredAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, username, email, avatar, registeredDay);
+      Object.hash(runtimeType, name, username, email, avatar, registeredAt);
 
   @override
   String toString() {
-    return 'User(name: $name, username: $username, email: $email, avatar: $avatar, registeredDay: $registeredDay)';
+    return 'User(name: $name, username: $username, email: $email, avatar: $avatar, registeredAt: $registeredAt)';
   }
 }
 
@@ -351,8 +351,8 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String? name,
       String username,
       String email,
-      String? avatar,
-      String? registeredDay});
+      String avatar,
+      String registeredAt});
 }
 
 /// @nodoc
@@ -370,8 +370,8 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
     Object? name = freezed,
     Object? username = null,
     Object? email = null,
-    Object? avatar = freezed,
-    Object? registeredDay = freezed,
+    Object? avatar = null,
+    Object? registeredAt = null,
   }) {
     return _then(_User(
       name: freezed == name
@@ -386,14 +386,14 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
           ? _self.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      avatar: freezed == avatar
+      avatar: null == avatar
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String?,
-      registeredDay: freezed == registeredDay
-          ? _self.registeredDay
-          : registeredDay // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
+      registeredAt: null == registeredAt
+          ? _self.registeredAt
+          : registeredAt // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
