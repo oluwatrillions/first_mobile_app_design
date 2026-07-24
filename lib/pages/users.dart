@@ -8,6 +8,7 @@ import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:http/http.dart" as http;
+import 'package:intl/intl.dart';
 
 class Users extends ConsumerStatefulWidget {
   const Users({super.key});
@@ -77,10 +78,9 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
-                  print(user.username);
-                  print(user.email);
-                  print(user.avatar);
-                  print(user.registeredAt);
+                  DateTime registeredAt = DateTime.parse(user.registeredAt);
+                  final formattedDate =
+                      DateFormat('MMM d, yyyy h:mm a').format(registeredAt);
                   return Card(
                     elevation: 5,
                     margin:
@@ -115,7 +115,7 @@ class _UsersState extends ConsumerState<Users> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Member since: ${user.registeredAt.toString()}',
+                                'Member since: $formattedDate',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: const Color.fromARGB(255, 0, 0, 0),
