@@ -23,8 +23,7 @@ const handleLogin = async (req, res) => {
       const payload = {
         email: user.email,
         username: user.username,
-        name: user.name,
-        profileImage: user.profileImage,
+        avatar: user.avatar,
       };
 
       const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {

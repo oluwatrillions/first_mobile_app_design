@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:first_app/components/mask_email.dart';
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:first_app/pages/user_profile.dart';
@@ -78,7 +79,8 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
-                  DateTime registeredAt = DateTime.parse(user.registeredAt);
+                  DateTime registeredAt =
+                      DateTime.parse(user.registeredAt ?? '');
                   final formattedDate =
                       DateFormat('MMM d, yyyy h:mm a').format(registeredAt);
                   return Card(
@@ -102,7 +104,7 @@ class _UsersState extends ConsumerState<Users> {
                             ),
                           ),
                           Text(
-                            user.email,
+                            maskEmail(user.email),
                             style: TextStyle(
                               fontSize: 18.0,
                               color: const Color.fromARGB(255, 0, 0, 0),

@@ -33,6 +33,8 @@ class LoginServices {
       if (response.statusCode == 200) {
         await _storage.write(key: 'access_token', value: data['accessToken']);
         await _storage.write(key: 'refresh_token', value: data['refreshToken']);
+        await _storage.write(
+            key: 'payload', value: jsonEncode(data['payload']));
         return {
           'success': true,
           'message': data['message'],

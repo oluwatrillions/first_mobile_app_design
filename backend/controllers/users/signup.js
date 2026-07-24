@@ -22,7 +22,7 @@ const upload = multer({
 }).single("avatar");
 
 const handleSignup = async (req, res) => {
-  let { username, email, password, name } = req.body;
+  let { username, email, password } = req.body;
 
   if (!username || !email || !password) {
     return res
@@ -44,7 +44,6 @@ const handleSignup = async (req, res) => {
     const hashedPwd = await bcrypt.hash(password, 12);
 
     const newUser = await Users.create({
-      name: req.body.name,
       username: req.body.username,
       email: userEmail ? req.body.email : null,
       password: hashedPwd,

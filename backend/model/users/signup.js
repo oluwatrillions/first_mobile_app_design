@@ -6,11 +6,6 @@ const Users = new userSchema({
   //   type: mongoose.Schema.Types.ObjectId,
   //   unique: true,
   // },
-  name: {
-    type: String,
-    minlength: 4,
-    maxlength: 255,
-  },
   username: {
     type: String,
     minlength: 4,
