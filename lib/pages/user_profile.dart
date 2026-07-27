@@ -25,7 +25,6 @@ class _UserProfileState extends ConsumerState<UserProfile> {
 
   Future<void> getUserData() async {
     final payload = await _storage.read(key: 'payload');
-    print(payload);
     if (payload != null) {
       setState(() {
         userData = User.fromJson(jsonDecode(payload));

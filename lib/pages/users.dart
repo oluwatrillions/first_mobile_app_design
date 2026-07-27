@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:first_app/components/mask_email.dart';
+import 'package:first_app/model/user.dart';
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:first_app/pages/user_profile.dart';
@@ -8,6 +9,7 @@ import 'package:first_app/providers/login_providers.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import "package:http/http.dart" as http;
 import 'package:intl/intl.dart';
 
@@ -19,6 +21,9 @@ class Users extends ConsumerStatefulWidget {
 }
 
 class _UsersState extends ConsumerState<Users> {
+  final _storage = const FlutterSecureStorage();
+  User? userData;
+
   Future<UserList> fetchUserList() async {
     final userListsNotifier = ref.read(userListsProvider.notifier);
     return await userListsNotifier.fetchUsers();
