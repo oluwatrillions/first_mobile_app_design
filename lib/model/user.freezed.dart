@@ -18,7 +18,7 @@ mixin _$User {
   String get username;
   String get email;
   String get avatar;
-  String? get registeredAt;
+  String get registeredAt;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -60,7 +60,7 @@ abstract mixin class $UserCopyWith<$Res> {
       _$UserCopyWithImpl;
   @useResult
   $Res call(
-      {String username, String email, String avatar, String? registeredAt});
+      {String username, String email, String avatar, String registeredAt});
 }
 
 /// @nodoc
@@ -78,7 +78,7 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object? username = null,
     Object? email = null,
     Object? avatar = null,
-    Object? registeredAt = freezed,
+    Object? registeredAt = null,
   }) {
     return _then(_self.copyWith(
       username: null == username
@@ -93,10 +93,10 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
-      registeredAt: freezed == registeredAt
+      registeredAt: null == registeredAt
           ? _self.registeredAt
           : registeredAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -195,7 +195,7 @@ extension UserPatterns on User {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
-            String username, String email, String avatar, String? registeredAt)?
+            String username, String email, String avatar, String registeredAt)?
         $default, {
     required TResult orElse(),
   }) {
@@ -225,7 +225,7 @@ extension UserPatterns on User {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(
-            String username, String email, String avatar, String? registeredAt)
+            String username, String email, String avatar, String registeredAt)
         $default,
   ) {
     final _that = this;
@@ -253,7 +253,7 @@ extension UserPatterns on User {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
-            String username, String email, String avatar, String? registeredAt)?
+            String username, String email, String avatar, String registeredAt)?
         $default,
   ) {
     final _that = this;
@@ -274,7 +274,7 @@ class _User implements User {
       {required this.username,
       required this.email,
       required this.avatar,
-      this.registeredAt});
+      required this.registeredAt});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 // required String id,
@@ -285,7 +285,7 @@ class _User implements User {
   @override
   final String avatar;
   @override
-  final String? registeredAt;
+  final String registeredAt;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -333,7 +333,7 @@ abstract mixin class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String username, String email, String avatar, String? registeredAt});
+      {String username, String email, String avatar, String registeredAt});
 }
 
 /// @nodoc
@@ -351,7 +351,7 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
     Object? username = null,
     Object? email = null,
     Object? avatar = null,
-    Object? registeredAt = freezed,
+    Object? registeredAt = null,
   }) {
     return _then(_User(
       username: null == username
@@ -366,10 +366,10 @@ class __$UserCopyWithImpl<$Res> implements _$UserCopyWith<$Res> {
           ? _self.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
               as String,
-      registeredAt: freezed == registeredAt
+      registeredAt: null == registeredAt
           ? _self.registeredAt
           : registeredAt // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }

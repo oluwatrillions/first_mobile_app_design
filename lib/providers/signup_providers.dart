@@ -36,7 +36,7 @@ class SignUpNotifier extends _$SignUpNotifier {
       );
 
       if (data['success']) {
-        ref.invalidate(userlistsProvider);
+        ref.invalidate(userlistsServicesProvider);
         state = AsyncData(data['message']);
       } else {
         state = AsyncError(data['message'], StackTrace.current);

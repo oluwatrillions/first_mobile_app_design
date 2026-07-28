@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import "dart:convert";
 
-class UserLists {
+class UserListsServices {
   final String baseUrl = 'http://10.0.2.2:5500';
 
   Future<UserList> fetchUsers() async {

@@ -2,77 +2,47 @@ import 'dart:convert';
 
 import 'package:first_app/model/user.dart';
 import 'package:first_app/providers/login_providers.dart';
+import 'package:first_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserProfile extends ConsumerStatefulWidget {
-  const UserProfile({super.key});
+  final String id;
+
+  const UserProfile({super.key, required this.id});
 
   @override
   ConsumerState<UserProfile> createState() => _UserProfileState();
 }
 
 class _UserProfileState extends ConsumerState<UserProfile> {
-  final _storage = const FlutterSecureStorage();
-  User? userData;
-
   @override
   void initState() {
     super.initState();
-    getUserData();
-  }
-
-  Future<void> getUserData() async {
-    final payload = await _storage.read(key: 'payload');
-    if (payload != null) {
-      setState(() {
-        userData = User.fromJson(jsonDecode(payload));
-      });
-    }
+    Future.microtask(
+        () => ref.read(userProvider.notifier).fetchUser(widget.id));
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userData == null) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('User Profile'),
-          backgroundColor: Color.fromARGB(255, 218, 183, 224),
-        ),
-        backgroundColor: Color.fromARGB(255, 218, 183, 224),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  radius: 100,
-                  backgroundImage: NetworkImage(
-                      'http://10.0.2.2:5500/public/avatar/${userData!.avatar}'),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Username: ${userData!.username}',
-                  style: const TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Email: ${userData!.email}',
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+    final userData = ref.watch(userProvider);
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('User Profile')),
+      body: userData.when(
+        data: (user) {
+          if (user == null) return const Center(child: Text('No user found'));
+          return Column(
+            children: [
+              Text(user.username),
+              Text(user.email),
+            ],
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, st) => Center(child: Text('Error: $e')),
+      ),
+    );
   }
 }

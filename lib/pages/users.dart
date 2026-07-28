@@ -7,6 +7,7 @@ import 'package:first_app/pages/login.dart';
 import 'package:first_app/pages/user_profile.dart';
 import 'package:first_app/providers/login_providers.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
+import 'package:first_app/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,11 +22,8 @@ class Users extends ConsumerStatefulWidget {
 }
 
 class _UsersState extends ConsumerState<Users> {
-  final _storage = const FlutterSecureStorage();
-  User? userData;
-
   Future<UserList> fetchUserList() async {
-    final userListsNotifier = ref.read(userListsProvider.notifier);
+    final userListsNotifier = ref.read(userlistsServicesProvider);
     return await userListsNotifier.fetchUsers();
   }
 
@@ -43,13 +41,26 @@ class _UsersState extends ConsumerState<Users> {
           title: Text('User\'s Page'),
           actions: [
             IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => UserProfile()),
-                  );
-                }),
+              icon: const Icon(Icons.person),
+              onPressed: () async {
+                final storage = const FlutterSecureStorage();
+                final data = await storage.read(key: 'payload');
+                if (data != null) {
+                  final payload = jsonDecode(data);
+                  print('payload: $payload');
+                  final id = payload['_id'] ?? payload['id'];
+                  print('id from users: $id');
+                  if (id != null && context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserProfile(id: id),
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () {
@@ -84,8 +95,7 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
-                  DateTime registeredAt =
-                      DateTime.parse(user.registeredAt ?? '');
+                  DateTime registeredAt = DateTime.parse(user.registeredAt);
                   final formattedDate =
                       DateFormat('MMM d, yyyy h:mm a').format(registeredAt);
                   return Card(

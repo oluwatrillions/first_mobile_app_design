@@ -9,46 +9,48 @@ part of 'user_lists_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(userlists)
-final userlistsProvider = UserlistsProvider._();
+@ProviderFor(userlistsServices)
+final userlistsServicesProvider = UserlistsServicesProvider._();
 
-final class UserlistsProvider
-    extends $FunctionalProvider<UserLists, UserLists, UserLists>
-    with $Provider<UserLists> {
-  UserlistsProvider._()
+final class UserlistsServicesProvider extends $FunctionalProvider<
+    UserListsServices,
+    UserListsServices,
+    UserListsServices> with $Provider<UserListsServices> {
+  UserlistsServicesProvider._()
       : super(
           from: null,
           argument: null,
           retry: null,
-          name: r'userlistsProvider',
+          name: r'userlistsServicesProvider',
           isAutoDispose: true,
           dependencies: null,
           $allTransitiveDependencies: null,
         );
 
   @override
-  String debugGetCreateSourceHash() => _$userlistsHash();
+  String debugGetCreateSourceHash() => _$userlistsServicesHash();
 
   @$internal
   @override
-  $ProviderElement<UserLists> $createElement($ProviderPointer pointer) =>
+  $ProviderElement<UserListsServices> $createElement(
+          $ProviderPointer pointer) =>
       $ProviderElement(pointer);
 
   @override
-  UserLists create(Ref ref) {
-    return userlists(ref);
+  UserListsServices create(Ref ref) {
+    return userlistsServices(ref);
   }
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(UserLists value) {
+  Override overrideWithValue(UserListsServices value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<UserLists>(value),
+      providerOverride: $SyncValueProvider<UserListsServices>(value),
     );
   }
 }
 
-String _$userlistsHash() => r'5e12db81dfe374496e9ccaaa8a6dc24bea8cbbdd';
+String _$userlistsServicesHash() => r'c0b59d1d6369ab367ffb0e49b1d5e40cad7c250f';
 
 @ProviderFor(UserListsNotifier)
 final userListsProvider = UserListsNotifierProvider._();
@@ -74,7 +76,7 @@ final class UserListsNotifierProvider
   UserListsNotifier create() => UserListsNotifier();
 }
 
-String _$userListsNotifierHash() => r'ad0cfb27ee117959a5945dfbb9188b9226124955';
+String _$userListsNotifierHash() => r'd8dc5771723482f0cab9927f2083f8ca5785e236';
 
 abstract class _$UserListsNotifier extends $AsyncNotifier<UserList> {
   FutureOr<UserList> build();

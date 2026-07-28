@@ -47,7 +47,7 @@ const handleSignup = async (req, res) => {
       username: req.body.username,
       email: userEmail ? req.body.email : null,
       password: hashedPwd,
-      avatar: req.file ? req.file.filename : "../../public/avatar/default.png",
+      avatar: req.file ? req.file.filename : "default.png",
       refreshToken: null,
     });
 

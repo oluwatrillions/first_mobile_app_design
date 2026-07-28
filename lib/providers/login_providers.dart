@@ -1,6 +1,5 @@
 import "package:riverpod_annotation/riverpod_annotation.dart";
 import '../services/login_services.dart';
-
 part 'login_providers.g.dart';
 
 @riverpod
@@ -49,11 +48,4 @@ class LoginNotifier extends _$LoginNotifier {
 
     return !state.hasError;
   }
-
-  // String? getMessage() {
-  //   return state.when(
-  //       data: (message) => message,
-  //       loading: () => null,
-  //       error: (e, st) => e.toString());
-  // }
 }
