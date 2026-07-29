@@ -1,7 +1,11 @@
-const users = require("../../model/users/signup");
+const Users = require("../../model/users/signup");
 
 const getUser = async (req, res) => {
-  const userData = await users.findOne({ _id: req.params.id }).exec();
+  if (!req.params.id) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  const userData = await Users.findOne({ _id: req.params.id }).exec();
 
   if (!userData) {
     return res.status(404).json({ message: "User not found" });

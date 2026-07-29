@@ -19,11 +19,9 @@ class UserNotifier extends _$UserNotifier {
   Future<User?> fetchUser(String id) async {
     final response = ref.read(userServicesProvider);
     state = const AsyncLoading();
-    print(id);
 
     state = await AsyncValue.guard(() async {
       final user = await response.fetchUser(id);
-      print(user);
       return user;
     });
 

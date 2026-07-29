@@ -36,6 +36,7 @@ class _UsersState extends ConsumerState<Users> {
   @override
   Widget build(BuildContext context) {
     final usersState = ref.watch(userListsProvider);
+    final email = ref.watch(userProvider).value?.email ?? '';
     return Scaffold(
         appBar: AppBar(
           title: Text('User\'s Page'),
@@ -47,9 +48,7 @@ class _UsersState extends ConsumerState<Users> {
                 final data = await storage.read(key: 'payload');
                 if (data != null) {
                   final payload = jsonDecode(data);
-                  print('payload: $payload');
                   final id = payload['_id'] ?? payload['id'];
-                  print('id from users: $id');
                   if (id != null && context.mounted) {
                     Navigator.push(
                       context,
@@ -119,7 +118,9 @@ class _UsersState extends ConsumerState<Users> {
                             ),
                           ),
                           Text(
-                            maskEmail(user.email),
+                            user.email == email
+                                ? user.email
+                                : maskEmail(user.email),
                             style: TextStyle(
                               fontSize: 18.0,
                               color: const Color.fromARGB(255, 0, 0, 0),

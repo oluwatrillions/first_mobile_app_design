@@ -35,8 +35,16 @@ class _UserProfileState extends ConsumerState<UserProfile> {
           if (user == null) return const Center(child: Text('No user found'));
           return Column(
             children: [
-              Text(user.username),
-              Text(user.email),
+              Center(
+                child: CircleAvatar(
+                  radius: 100,
+                  backgroundImage: NetworkImage(
+                      'http://10.0.2.2:5500/public/avatar/${user.avatar}'),
+                ),
+              ),
+              Text(user.username, style: const TextStyle(fontSize: 24)),
+              Text(user.email, style: const TextStyle(fontSize: 18)),
+              Text(user.registeredAt, style: const TextStyle(fontSize: 16)),
             ],
           );
         },
