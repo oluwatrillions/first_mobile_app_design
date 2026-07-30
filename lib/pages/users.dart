@@ -27,9 +27,20 @@ class _UsersState extends ConsumerState<Users> {
     return await userListsNotifier.fetchUsers();
   }
 
+  Future<void> _fetchLoggedInUser() async {
+    final storage = const FlutterSecureStorage();
+    final data = await storage.read(key: 'payload');
+    if (data != null) {
+      final payload = jsonDecode(data);
+      String id = payload['_id'];
+      ref.read(userProvider.notifier).fetchUser(id);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _fetchLoggedInUser();
     fetchUserList();
   }
 
