@@ -1,3 +1,4 @@
+import "package:first_app/services/token_services.dart";
 import "package:flutter/material.dart";
 import "package:http/http.dart" as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -5,7 +6,7 @@ import "dart:convert";
 
 class LoginServices {
   final String baseUrl = 'http://10.0.2.2:5500';
-  final _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   Future<Map<String, dynamic>> loggedUser(
       {required String email, required String password}) async {
@@ -31,7 +32,7 @@ class LoginServices {
       }
 
       if (response.statusCode == 200) {
-        await _storage.write(key: 'access_token', value: data['accessToken']);
+        await TokenService().saveToken(data['accessToken']);
         await _storage.write(key: 'refresh_token', value: data['refreshToken']);
         await _storage.write(
             key: 'payload', value: jsonEncode(data['payload']));
@@ -67,35 +68,10 @@ class LoginServices {
     }
   }
 
-  Future<Map<String, dynamic>> logoutUser({required String email}) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/logout'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email}),
-      );
-
-      Map<String, dynamic> data;
-
-      try {
-        data = jsonDecode(response.body);
-      } catch (e) {
-        throw Exception('Invalid response from server');
-      }
-
-      if (response.statusCode == 200) {
-        return {
-          'success': true,
-          'message': data['message'],
-        };
-      } else {
-        return {
-          'success': false,
-          'message': data['message'],
-        };
-      }
-    } catch (e) {
-      throw Exception('Logout failed: $e');
-    }
+  Future<Map<String, dynamic>> logoutUser() async {
+    await TokenService().deleteToken();
+    await _storage.delete(key: 'refresh_token');
+    await _storage.delete(key: 'payload');
+    return {'success': true, 'message': 'Logged out successfully.'};
   }
 }

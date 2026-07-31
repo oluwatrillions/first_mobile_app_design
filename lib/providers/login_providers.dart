@@ -32,13 +32,12 @@ class LoginNotifier extends _$LoginNotifier {
     return !state.hasError;
   }
 
-  Future<bool> logoutUser({required String email}) async {
+  Future<Map<String, dynamic>> logoutUser() async {
     final response = ref.read(loginServicesProvider);
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final data = await response.logoutUser(email: email);
-
+      final data = await response.logoutUser();
       if (data['success']) {
         return data['message'] as String?;
       } else {
@@ -46,6 +45,9 @@ class LoginNotifier extends _$LoginNotifier {
       }
     });
 
-    return !state.hasError;
+    return {
+      'success': !state.hasError,
+      'message': state.hasError ? state.error.toString() : state.value,
+    };
   }
 }

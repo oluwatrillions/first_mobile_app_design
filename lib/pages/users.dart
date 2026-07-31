@@ -8,6 +8,7 @@ import 'package:first_app/pages/user_profile.dart';
 import 'package:first_app/providers/login_providers.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:first_app/providers/user_provider.dart';
+import 'package:first_app/services/token_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -33,18 +34,15 @@ class _UsersState extends ConsumerState<Users> {
     final data = await storage.read(key: 'payload');
     if (data != null) {
       final payload = jsonDecode(data);
-      print(payload);
       String id = payload['_id'];
       ref.read(userProvider.notifier).fetchUser(id);
     }
   }
 
   Future<void> getAccessToken() async {
-    final storage = const FlutterSecureStorage();
-    final accessToken = await storage.read(key: 'access_token');
+    final accessToken = await TokenService().getToken();
     if (accessToken != null) {
       final data = Jwt.parseJwt(accessToken);
-      print(data);
     } else {
       print('No access token found.');
     }
@@ -87,11 +85,25 @@ class _UsersState extends ConsumerState<Users> {
             ),
             IconButton(
               icon: Icon(Icons.logout),
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => Login()),
-                );
+              onPressed: () async {
+                final logout = ref.read(loginProvider.notifier);
+                final data = await logout.logoutUser();
+                if (data['success'] && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(data['message'])),
+                  );
+                  await Future.delayed(const Duration(seconds: 1));
+                  if (context.mounted) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Logout failed. Please try again.')),
+                  );
+                }
               },
             ),
           ],
