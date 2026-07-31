@@ -13,6 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import "package:http/http.dart" as http;
 import 'package:intl/intl.dart';
+import 'package:jwt_decode/jwt_decode.dart';
 
 class Users extends ConsumerStatefulWidget {
   const Users({super.key});
@@ -32,8 +33,20 @@ class _UsersState extends ConsumerState<Users> {
     final data = await storage.read(key: 'payload');
     if (data != null) {
       final payload = jsonDecode(data);
+      print(payload);
       String id = payload['_id'];
       ref.read(userProvider.notifier).fetchUser(id);
+    }
+  }
+
+  Future<void> getAccessToken() async {
+    final storage = const FlutterSecureStorage();
+    final accessToken = await storage.read(key: 'access_token');
+    if (accessToken != null) {
+      final data = Jwt.parseJwt(accessToken);
+      print(data);
+    } else {
+      print('No access token found.');
     }
   }
 
@@ -42,6 +55,7 @@ class _UsersState extends ConsumerState<Users> {
     super.initState();
     _fetchLoggedInUser();
     fetchUserList();
+    getAccessToken();
   }
 
   @override
