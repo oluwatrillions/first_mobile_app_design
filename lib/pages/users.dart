@@ -87,7 +87,7 @@ class _UsersState extends ConsumerState<Users> {
               icon: Icon(Icons.logout),
               onPressed: () async {
                 final logout = ref.read(loginProvider.notifier);
-                final data = await logout.logoutUser();
+                final data = await logout.logoutUser(email: email);
                 if (data['success'] && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(data['message'])),

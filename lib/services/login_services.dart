@@ -68,10 +68,27 @@ class LoginServices {
     }
   }
 
-  Future<Map<String, dynamic>> logoutUser() async {
-    await TokenService().deleteToken();
-    await _storage.delete(key: 'refresh_token');
-    await _storage.delete(key: 'payload');
-    return {'success': true, 'message': 'Logged out successfully.'};
+  Future<Map<String, dynamic>> logoutUser({required String email}) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/logout'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        await TokenService().deleteToken();
+        await _storage.delete(key: 'refresh_token');
+        await _storage.delete(key: 'payload');
+        return {
+          'success': true,
+          'message': jsonDecode(response.body)['message'],
+        };
+      } else {
+        throw Exception('Logout failed');
+      }
+    } catch (e) {
+      throw Exception('Connection error: $e');
+    }
   }
 }

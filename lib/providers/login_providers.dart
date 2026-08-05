@@ -32,12 +32,12 @@ class LoginNotifier extends _$LoginNotifier {
     return !state.hasError;
   }
 
-  Future<Map<String, dynamic>> logoutUser() async {
+  Future<Map<String, dynamic>> logoutUser({required String email}) async {
     final response = ref.read(loginServicesProvider);
     state = const AsyncLoading();
 
     state = await AsyncValue.guard(() async {
-      final data = await response.logoutUser();
+      final data = await response.logoutUser(email: email);
       if (data['success']) {
         return data['message'] as String?;
       } else {
