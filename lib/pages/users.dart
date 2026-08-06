@@ -24,11 +24,6 @@ class Users extends ConsumerStatefulWidget {
 }
 
 class _UsersState extends ConsumerState<Users> {
-  Future<UserList> fetchUserList() async {
-    final userListsNotifier = ref.read(userlistsServicesProvider);
-    return await userListsNotifier.fetchUsers();
-  }
-
   Future<void> _fetchLoggedInUser() async {
     final storage = const FlutterSecureStorage();
     final data = await storage.read(key: 'payload');
@@ -52,7 +47,6 @@ class _UsersState extends ConsumerState<Users> {
   void initState() {
     super.initState();
     _fetchLoggedInUser();
-    fetchUserList();
     getAccessToken();
   }
 
@@ -131,59 +125,70 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
+                  print(user);
                   DateTime registeredAt = DateTime.parse(user.registeredAt);
                   final formattedDate =
                       DateFormat('MMM d, yyyy h:mm a').format(registeredAt);
-                  return Card(
-                    elevation: 5,
-                    margin:
-                        EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    color: const Color.fromARGB(255, 131, 187, 233),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.username,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: const Color.fromARGB(255, 0, 0, 0),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserProfile(id: user.id!),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      elevation: 5,
+                      margin: EdgeInsets.only(
+                          bottom: 20.0, left: 20.0, right: 20.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      color: const Color.fromARGB(255, 131, 187, 233),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.username,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                              ),
                             ),
-                          ),
-                          Text(
-                            user.email == email
-                                ? user.email
-                                : maskEmail(user.email),
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              color: const Color.fromARGB(255, 0, 0, 0),
+                            Text(
+                              user.email == email
+                                  ? user.email
+                                  : maskEmail(user.email),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                              ),
                             ),
-                          ),
-                          CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  'http://10.0.2.2:5500/public/avatar/${user.avatar}')),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Member since: $formattedDate',
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: const Color.fromARGB(255, 0, 0, 0),
+                            CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'http://10.0.2.2:5500/public/avatar/${user.avatar}')),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Member since: $formattedDate',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: const Color.fromARGB(255, 0, 0, 0),
+                                  ),
                                 ),
-                              ),
-                              Icon(
-                                Icons.favorite_border,
-                                color: Colors.red,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ],
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.red,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

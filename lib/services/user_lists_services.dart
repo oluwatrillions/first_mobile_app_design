@@ -12,7 +12,6 @@ class UserListsServices {
         Uri.parse('$baseUrl/users'),
         headers: {'Content-Type': 'application/json'},
       );
-
       if (response.statusCode == 200) {
         final List<dynamic> usersData = jsonDecode(response.body);
         final UserList userList = UserList.fromJson({'users': usersData});

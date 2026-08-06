@@ -6,7 +6,6 @@ const getUser = async (req, res) => {
   }
 
   const userData = await Users.findOne({ _id: req.params.id }).exec();
-
   if (!userData) {
     return res.status(404).json({ message: "User not found" });
   }
