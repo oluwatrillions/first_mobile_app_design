@@ -5,6 +5,7 @@ import 'package:first_app/model/user.dart';
 import 'package:first_app/model/user_list.dart';
 import 'package:first_app/pages/login.dart';
 import 'package:first_app/pages/user_profile.dart';
+import 'package:first_app/providers/logged_in_user_providers.dart';
 import 'package:first_app/providers/login_providers.dart';
 import 'package:first_app/providers/user_lists_providers.dart';
 import 'package:first_app/providers/user_provider.dart';
@@ -30,7 +31,7 @@ class _UsersState extends ConsumerState<Users> {
     if (data != null) {
       final payload = jsonDecode(data);
       String id = payload['_id'];
-      ref.read(userProvider.notifier).fetchUser(id);
+      ref.read(loggedInUserProvider.notifier).fetchloggedInUser(id);
     }
   }
 
@@ -38,6 +39,7 @@ class _UsersState extends ConsumerState<Users> {
     final accessToken = await TokenService().getToken();
     if (accessToken != null) {
       final data = Jwt.parseJwt(accessToken);
+      print(data);
     } else {
       print('No access token found.');
     }
@@ -53,7 +55,8 @@ class _UsersState extends ConsumerState<Users> {
   @override
   Widget build(BuildContext context) {
     final usersState = ref.watch(userListsProvider);
-    final email = ref.watch(userProvider).value?.email ?? '';
+    final email = ref.watch(loggedInUserProvider).value?.email ?? '';
+    print(email);
     return Scaffold(
         appBar: AppBar(
           title: Text('User\'s Page'),
@@ -125,7 +128,6 @@ class _UsersState extends ConsumerState<Users> {
                 itemCount: users.users.length,
                 itemBuilder: (context, index) {
                   final user = users.users[index];
-                  print(user);
                   DateTime registeredAt = DateTime.parse(user.registeredAt);
                   final formattedDate =
                       DateFormat('MMM d, yyyy h:mm a').format(registeredAt);
@@ -180,10 +182,14 @@ class _UsersState extends ConsumerState<Users> {
                                     color: const Color.fromARGB(255, 0, 0, 0),
                                   ),
                                 ),
-                                Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.red,
-                                  size: 20,
+                                IconButton(
+                                  icon: Icon(Icons.favorite_border),
+                                  style: IconButton.styleFrom(
+                                    foregroundColor: Colors.red,
+                                    backgroundColor: Colors.transparent,
+                                    elevation: 1,
+                                  ),
+                                  onPressed: () {},
                                 ),
                               ],
                             ),

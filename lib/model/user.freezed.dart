@@ -14,7 +14,6 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$User {
-// required String id,
   String get username;
   String get email;
   String get avatar;
@@ -290,7 +289,6 @@ class _User implements User {
       @JsonKey(name: '_id') this.id});
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-// required String id,
   @override
   final String username;
   @override
